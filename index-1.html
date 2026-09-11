@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Telgaraf Jang — World War</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#030303;--p:#0b0b0b;--p2:#111;--line:#28201b;--fire:#ff4b08;--orange:#ff9a3d;--txt:#f4eee9;--muted:#99918b;--green:#63d18a;--red:#ff5e5e}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% 0,#21100a 0,#060606 35%,#020202 80%);color:var(--txt);font-family:Vazirmatn,Tahoma,sans-serif;min-height:100vh}button,input,select{font:inherit}
+.hidden{display:none!important}.top{position:sticky;top:0;z-index:20;background:#050505eF;backdrop-filter:blur(15px);border-bottom:1px solid #241b17}.nav{max-width:1200px;margin:auto;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{font-weight:900;letter-spacing:.5px}.brand b{color:var(--fire)}.nav button{background:#15100e;border:1px solid #3b271e;color:#ddd;padding:8px 13px;border-radius:10px;cursor:pointer}.wrap{max-width:1200px;margin:auto;padding:25px 17px 70px}
+.login{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle,#281108,#030303 58%)}.loginbox{width:min(450px,100%);background:#090909;border:1px solid #3a251c;border-radius:25px;padding:35px;box-shadow:0 25px 100px #000}.globe{width:95px;height:95px;border:2px solid var(--fire);border-radius:50%;margin:0 auto 25px;box-shadow:0 0 40px #ff4b0838;position:relative}.globe:before{content:"";position:absolute;inset:10px;border:1px solid #ff8b4d77;border-radius:50%;transform:rotate(90deg) scaleX(.45)}.globe:after{content:"";position:absolute;left:50%;top:0;height:100%;border-left:1px solid #ff8b4d77}.login h1{text-align:center;font-size:31px;margin:0}.login p{text-align:center;color:var(--muted);line-height:1.9;font-size:13px}.field{margin:14px 0}.field label{display:block;color:#aaa;font-size:12px;margin-bottom:7px}.field input,.field select{width:100%;background:#111;border:1px solid #30231d;color:#eee;padding:12px;border-radius:11px;outline:none}.field input:focus,.field select:focus{border-color:var(--fire);box-shadow:0 0 0 3px #ff4b0810}.primary{width:100%;border:0;background:linear-gradient(135deg,#ff5209,#9e2107);color:#fff;padding:13px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:0 12px 35px #ff4b0825}.note{font-size:11px!important;color:#6f6863!important;margin-top:14px}
+.hero{padding:42px 0 25px;display:flex;align-items:end;justify-content:space-between;gap:25px}.hero h1{font-size:clamp(30px,6vw,58px);line-height:1.1;margin:5px 0}.hero h1 span{color:var(--fire)}.hero p{color:var(--muted);line-height:2;max-width:700px}.badge{display:inline-block;color:var(--orange);border:1px solid #4a2a1d;background:#130b08;padding:7px 12px;border-radius:99px;font-size:11px}.panel{background:linear-gradient(145deg,#0d0d0d,#080808);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 70px #0008;margin:18px 0;position:relative;overflow:hidden}.panel:before{content:"";position:absolute;right:8%;top:0;width:35%;height:1px;background:linear-gradient(90deg,transparent,var(--fire),transparent)}
+.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{background:#0a0a0a;border:1px solid #29211d;border-radius:16px;padding:17px}.card h3{margin:0 0 7px;font-size:15px}.card p{color:#938b85;font-size:12px;line-height:1.8;margin:0}.countrygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.country{background:#0a0a0a;border:1px solid #29221e;border-radius:12px;padding:12px;cursor:pointer;transition:.25s}.country:hover,.country.active{border-color:#a63d1d;transform:translateY(-2px);box-shadow:0 8px 25px #ff4b0812}.country b{display:block;font-size:13px}.country small{color:#777;font-size:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#0a0a0a;border:1px solid #29221d;border-radius:15px;padding:15px}.stat span{display:block;color:#777;font-size:10px}.stat b{font-size:24px;color:var(--orange)}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.action{border:1px solid #31251f;background:#0d0d0d;color:#eee;padding:13px;border-radius:12px;cursor:pointer;text-align:right}.action:hover{border-color:#8e391d;background:#120b08}.action b{display:block}.action small{color:#777}
+.bar{height:7px;background:#201b18;border-radius:99px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#ff4200,#ffad4e);width:50%;transition:.5s}
+.log{max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:7px}.event{padding:10px 12px;border-right:2px solid #7e321c;background:#0b0b0b;color:#aaa;font-size:12px;border-radius:7px}.event strong{color:#ddd}.danger{color:var(--red)}.good{color:var(--green)}
+.modal{position:fixed;inset:0;background:#000B;z-index:50;display:grid;place-items:center;padding:18px}.modalbox{width:min(620px,100%);max-height:90vh;overflow:auto;background:#0a0a0a;border:1px solid #3b281f;border-radius:22px;padding:25px}.modalhead{display:flex;justify-content:space-between;align-items:center}.close{background:#18110e;color:#ccc;border:1px solid #33251e;border-radius:9px;padding:7px 11px;cursor:pointer}
+footer{text-align:center;color:#625b56;border-top:1px solid #201916;padding:30px 15px;font-size:11px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.countrygrid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.hero{display:block}.cards{grid-template-columns:1fr}}@media(max-width:430px){.countrygrid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+ <div class="loginbox">
+  <div class="globe"></div>
+  <h1>ورود به <span style="color:#ff4b08">میدان نبرد</span></h1>
+  <p>برای ورود به فرماندهی، نام کاربری و رمز خود را بسازید.</p>
+  <div class="field"><label>نام کاربری</label><input id="user" autocomplete="username" placeholder="مثلاً commander"></div>
+  <div class="field"><label>رمز عبور</label><input id="pass" type="password" autocomplete="current-password" placeholder="حداقل ۴ کاراکتر"></div>
+  <button class="primary" onclick="login()">ایجاد حساب / ورود</button>
+  <p class="note">نسخه نمایشی: حساب‌ها فقط روی همین مرورگر ذخیره می‌شوند و برای سایت واقعی، بک‌اند و احراز هویت امن لازم است.</p>
+ </div>
+</div>
+
+<div id="app" class="hidden">
+<header class="top"><div class="nav"><div class="brand">TELGARAF <b>JANG</b> ⚔️</div><button onclick="logout()">خروج</button></div></header>
+<main class="wrap">
+ <div class="hero">
+  <div><span class="badge">WORLD WAR • TURN BASED</span><h1>فرماندهی <span>جهان</span></h1><p>یک شبیه‌ساز نوبتی که در آن اقتصاد، مردم، ارتش و دیپلماسی را مدیریت می‌کنی. هر نوبت، یک تصمیم می‌تواند نقشه جهان را عوض کند.</p></div>
+ </div>
+
+ <div class="panel">
+  <h2 style="margin:0 0 15px">کشور خود را انتخاب کن</h2>
+  <div id="countries" class="countrygrid"></div>
+ </div>
+
+ <div id="game" class="hidden">
+  <div class="stats">
+   <div class="stat"><span>خزانه</span><b id="money">0</b> 💰</div>
+   <div class="stat"><span>جمعیت</span><b id="pop">0</b></div>
+   <div class="stat"><span>قدرت نظامی</span><b id="mil">0</b></div>
+   <div class="stat"><span>نوبت</span><b id="turn">1</b></div>
+  </div>
+  <div class="grid">
+   <div>
+    <div class="panel">
+     <h2 id="countryTitle" style="margin:0 0 5px"></h2><p id="countryDesc" style="color:#8d8580;font-size:12px"></p>
+     <div class="cards" style="margin-top:15px">
+      <div class="card"><h3>🏭 اقتصاد</h3><p>درآمد نوبت بعد: <b id="income">0</b></p><div class="bar"><i id="econBar"></i></div></div>
+      <div class="card"><h3>😊 رفاه</h3><p>رضایت مردم: <b id="welfare">0</b>%</p><div class="bar"><i id="wellBar"></i></div></div>
+      <div class="card"><h3>🛡️ دفاع</h3><p>آمادگی دفاعی: <b id="defense">0</b>%</p><div class="bar"><i id="defBar"></i></div></div>
+      <div class="card"><h3>🌐 نفوذ</h3><p>اعتبار دیپلماتیک: <b id="diplo">0</b></p><div class="bar"><i id="dipBar"></i></div></div>
+     </div>
+    </div>
+    <div class="panel"><h2 style="margin:0 0 14px">اقدامات فرماندهی</h2><div class="actions">
+      <button class="action" onclick="act('industry')"><b>🏭 سرمایه‌گذاری صنعتی</b><small>۵۰۰ هزینه • اقتصاد +۸</small></button>
+      <button class="action" onclick="act('food')"><b>🌾 برنامه رفاه و غذا</b><small>۳۵۰ هزینه • رفاه +۱۰</small></button>
+      <button class="action" onclick="act('army')"><b>⚔️ تقویت ارتش</b><small>۷۰۰ هزینه • نظامی +۱۲</small></button>
+      <button class="action" onclick="act('diplomacy')"><b>🤝 پیمان دیپلماتیک</b><small>۳۰۰ هزینه • نفوذ +۹</small></button>
+      <button class="action" onclick="act('trade')"><b>📦 قرارداد تجاری</b><small>درآمد فوری • ریسک کم</small></button>
+      <button class="action" onclick="nextTurn()"><b>⏭️ پایان نوبت</b><small>درآمد و رویدادهای جهان</small></button>
+     </div></div>
+   </div>
+   <aside>
+    <div class="panel"><h3 style="margin-top:0">🗺️ وضعیت جهان</h3><div id="world"></div></div>
+    <div class="panel"><h3 style="margin-top:0">📜 گزارش فرماندهی</h3><div id="log" class="log"></div></div>
+   </aside>
+  </div>
+ </div>
+</main>
+<footer>© 2026 Telgaraf_Jang • World War Text Simulator • Owner: PoriyTV • Support: @Likjphrbh</footer>
+</div>
+
+<div id="modal" class="modal hidden"><div class="modalbox"><div class="modalhead"><h2 id="modalTitle">گزارش</h2><button class="close" onclick="closeModal()">بستن</button></div><div id="modalBody" style="color:#aaa;line-height:2;font-size:13px;margin-top:15px"></div></div></div>
+
+<script>
+const countries=[
+["ایران","خاورمیانه",72,68,65,60],["آلمان","اروپا",88,70,86,74],["فرانسه","اروپا",78,76,72,80],["بریتانیا","اروپا",84,79,78,91],
+["روسیه","اوراسیا",91,61,92,68],["ترکیه","اوراسیا",70,72,70,69],["ایتالیا","اروپا",73,67,71,70],["اسپانیا","اروپا",67,78,60,72],
+["لهستان","اروپا",65,70,62,65],["سوئد","اروپا",76,84,58,83],["نروژ","اروپا",71,86,55,88],["هلند","اروپا",80,81,60,86],
+["بلژیک","اروپا",69,75,55,78],["سوئیس","اروپا",82,92,45,90],["یونان","اروپا",61,72,53,67],["اتریش","اروپا",70,75,59,76],
+["مصر","آفریقا",63,69,58,71],["لیبی","آفریقا",54,57,48,52],["الجزایر","آفریقا",60,64,51,61],["مراکش","آفریقا",62,70,49,65],
+["آمریکا","آمریکا",96,82,94,96],["کانادا","آمریکا",88,88,77,92],["مکزیک","آمریکا",74,73,65,70],["برزیل","آمریکای جنوبی",79,75,76,77],
+["آرژانتین","آمریکای جنوبی",72,79,68,75],["شیلی","آمریکای جنوبی",68,81,58,79],["پرو","آمریکای جنوبی",63,67,55,62],["کلمبیا","آمریکای جنوبی",65,69,57,66],
+["چین","آسیا",94,65,93,84],["ژاپن","آسیا",90,78,86,88],["کره جنوبی","آسیا",86,80,79,85],["هند","آسیا",87,69,84,81],
+["پاکستان","آسیا",70,62,69,64],["اندونزی","آسیا",75,71,66,73],["استرالیا","اقیانوسیه",82,86,74,90],["نیوزیلند","اقیانوسیه",68,89,53,87]
+];
+let state=null, accountKey="telgaraf_account";
+const $=id=>document.getElementById(id);
+function money(n){return Math.round(n).toLocaleString("fa-IR")}
+function save(){localStorage.setItem("telgaraf_state",JSON.stringify(state))}
+function login(){
+ const u=$("user").value.trim(),p=$("pass").value;
+ if(u.length<3||p.length<4){alert("نام کاربری حداقل ۳ و رمز حداقل ۴ کاراکتر باشد.");return}
+ localStorage.setItem(accountKey,JSON.stringify({u,p}));
+ state=JSON.parse(localStorage.getItem("telgaraf_state")||"null");
+ if(!state) state={u, country:null, turn:1};
+ state.u=u; save(); showApp();
+}
+function showApp(){$("login").classList.add("hidden");$("app").classList.remove("hidden");renderCountries();if(state.country)startGame(state.country)}
+function logout(){$("app").classList.add("hidden");$("login").classList.remove("hidden")}
+function renderCountries(){
+ $("countries").innerHTML=countries.map((c,i)=>`<div class="country ${state&&state.country===i?"active":""}" onclick="startGame(${i})"><b>${c[0]}</b><small>${c[1]} • اقتصاد ${c[2]}</small></div>`).join("");
+}
+function startGame(i){
+ const c=countries[i];
+ if(!state||state.country!==i) state={...state,country:i,turn:1,money:Math.round(2500+c[2]*18),pop:Math.round(5+c[3]/8),mil:c[4],welfare:c[3],defense:Math.round((c[4]+c[2])/2),diplo:c[5],econ:c[2],log:[]};
+ if(!state.log?.length) addLog(`کشور <strong>${c[0]}</strong> را انتخاب کردی. بازی آغاز شد.`);
+ save(); renderCountries();$("game").classList.remove("hidden");render();
+ window.scrollTo({top:$("game").offsetTop-70,behavior:"smooth"});
+}
+function render(){
+ const c=countries[state.country];$("countryTitle").textContent="🇺🇳 "+c[0]+" — فرماندهی شما";
+ $("countryDesc").textContent=`منطقه: ${c[1]} • کشور شما از این لحظه تحت فرمان شماست.`;
+ $("money").textContent=money(state.money);$("pop").textContent=money(state.pop)+" M";$("mil").textContent=state.mil;
+ $("turn").textContent=state.turn;$("income").textContent=money(state.econ*12+state.welfare*4);
+ $("welfare").textContent=state.welfare;$("defense").textContent=state.defense;$("diplo").textContent=state.diplo;
+ $("econBar").style.width=Math.min(100,state.econ)+"%";$("wellBar").style.width=Math.min(100,state.welfare)+"%";
+ $("defBar").style.width=Math.min(100,state.defense)+"%";$("dipBar").style.width=Math.min(100,state.diplo)+"%";
+ $("log").innerHTML=(state.log||[]).slice(-12).reverse().map(x=>`<div class="event">${x}</div>`).join("");
+ $("world").innerHTML=countries.slice(0,12).map((x,i)=>`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #1d1815;padding:8px 0;font-size:11px"><span>${x[0]}</span><span style="color:${i===state.country?"#ff7a32":"#777"}">${x[4]}</span></div>`).join("")+"<div style='color:#666;font-size:10px;margin-top:10px'>+ "+(countries.length-12)+" کشور دیگر در جهان بازی</div>";
+}
+function addLog(x){state.log=state.log||[];state.log.push(x);if(state.log.length>30)state.log.shift()}
+function spend(cost){if(state.money<cost){addLog('<span class="danger">⚠️ خزانه برای این اقدام کافی نیست.</span>');render();return false}state.money-=cost;return true}
+function act(type){
+ if(!state.country)return;
+ if(type==="industry"){if(!spend(500))return;state.econ=Math.min(100,state.econ+8);addLog("🏭 صنعت توسعه یافت. اقتصاد <span class='good'>+8</span>.")}
+ if(type==="food"){if(!spend(350))return;state.welfare=Math.min(100,state.welfare+10);state.pop+=.15;addLog("🌾 برنامه رفاه اجرا شد. رضایت مردم <span class='good'>+10%</span>.")}
+ if(type==="army"){if(!spend(700))return;state.mil=Math.min(100,state.mil+12);state.defense=Math.min(100,state.defense+9);addLog("⚔️ ارتش تقویت شد. قدرت نظامی <span class='good'>+12</span>.")}
+ if(type==="diplomacy"){if(!spend(300))return;state.diplo=Math.min(100,state.diplo+9);addLog("🤝 پیمان دیپلماتیک بسته شد. نفوذ <span class='good'>+9</span>.")}
+ if(type==="trade"){let gain=350+Math.floor(Math.random()*550);state.money+=gain;state.diplo=Math.min(100,state.diplo+2);addLog(`📦 قرارداد تجاری موفق بود؛ <span class='good'>+${money(gain)} 💰</span>`)}
+ save();render();
+}
+function nextTurn(){
+ const income=Math.max(100,state.econ*12+state.welfare*4);state.money+=income;state.turn++;
+ let r=Math.random();
+ if(r<.22){state.money=Math.max(0,state.money-250);state.welfare=Math.max(0,state.welfare-3);addLog("🌪️ بحران اقتصادی جهانی رخ داد؛ درآمد و رفاه کاهش یافت.");}
+ else if(r<.42){state.money+=450;state.diplo=Math.min(100,state.diplo+4);addLog("🤝 یک فرصت تجاری جهانی پیدا شد؛ خزانه افزایش یافت.");}
+ else if(r<.58){state.defense=Math.max(0,state.defense-2);addLog("⚠️ تنش مرزی افزایش یافت؛ آمادگی دفاعی اندکی افت کرد.");}
+ else{state.welfare=Math.min(100,state.welfare+1);addLog(`📅 نوبت ${state.turn}: کشور ${countries[state.country][0]} درآمد <span class='good'>${money(income)} 💰</span> دریافت کرد.`)}
+ if(state.turn%5===0)openModal("رویداد بزرگ جهان",`نوبت ${state.turn} به پایان رسید. اکنون جهان وارد مرحله تازه‌ای شده است. <br><br><b>قدرت کلی شما:</b> ${state.mil+state.econ+state.diplo+state.welfare}`);
+ save();render();
+}
+function openModal(t,b){$("modalTitle").textContent=t;$("modalBody").innerHTML=b;$("modal").classList.remove("hidden")}
+function closeModal(){$("modal").classList.add("hidden")}
+window.addEventListener("load",()=>{
+ const a=JSON.parse(localStorage.getItem(accountKey)||"null");state=JSON.parse(localStorage.getItem("telgaraf_state")||"null");
+ if(a){$("user").value=a.u;$("pass").value=a.p; if(state){state.u=a.u;save()} showApp()}
+});
+</script>
+</body></html>
