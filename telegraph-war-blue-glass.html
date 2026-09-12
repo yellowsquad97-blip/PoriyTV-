@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>تلگراف جنگ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+/* =====================================================
+   تلگراف جنگ — استایل کامل
+   تم تاریک نظامی (مشکی، خاکی، طلایی)
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --card2: #1c1c1c;
+  --border: #2a2a2a;
+  --khaki: #8b7d4f;
+  --gold: #d4af37;
+  --red: #c0392b;
+  --green: #27ae60;
+  --text: #e8e6e3;
+  --muted: #888;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Vazirmatn', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ========== صفحه ورود ========== */
+#auth-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: radial-gradient(ellipse at top, #1a1810 0%, var(--bg) 70%);
+}
+
+.logo-svg {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1rem;
+}
+
+.auth-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.75rem;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.auth-tab.active {
+  background: var(--khaki);
+  color: #fff;
+  border-color: var(--gold);
+}
+
+.auth-form {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-form.active {
+  display: flex;
+}
+
+.auth-form input {
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+#auth-error {
+  color: var(--red);
+  font-size: 0.9rem;
+  min-height: 1.4em;
+  text-align: center;
+}
+
+/* ========== هدر ========== */
+#game-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+}
+
+#player-name {
+  font-weight: 600;
+  color: var(--gold);
+}
+
+#player-cash {
+  background: var(--card2);
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 600;
+  color: var(--green);
+  border: 1px solid var(--border);
+}
+
+/* ========== بنر تحریم ========== */
+#sanction-banner {
+  display: none;
+  background: var(--red);
+  color: #fff;
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ========== ناوبری ========== */
+/* دسکتاپ */
+.top-nav {
+  display: none;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  overflow-x: auto;
+}
+
+.top-nav .nav-item {
+  display: inline-block;
+  padding: 0.85rem 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.top-nav .nav-item.active,
+.top-nav .nav-item:hover {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* موبایل bottom nav */
+.bottom-nav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  z-index: 100;
+  padding: 0.35rem 0;
+  justify-content: space-around;
+}
+
+.bottom-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.4rem 0.3rem;
+  color: var(--muted);
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  min-width: 48px;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.bottom-nav .nav-item.active {
+  color: var(--gold);
+}
+
+.bottom-nav .nav-item span.icon {
+  font-size: 1.25rem;
+}
+
+/* ========== محتوای اصلی ========== */
+#game-screen {
+  display: none;
+  padding-bottom: 80px;
+}
+
+.tab-content {
+  display: none;
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: fadeIn 0.25s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ========== کارت‌ها ========== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card h2, .card h3, .card h4 {
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.hero-card {
+  text-align: center;
+  background: linear-gradient(145deg, var(--card2), var(--card));
+}
+
+.flag-big {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.stats div {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.stats span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.stats strong {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+/* ========== دکمه‌ها ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn.primary {
+  background: var(--khaki);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #a0905a;
+}
+
+.btn.danger {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn.danger:hover {
+  background: #e74c3c;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-sm.danger {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ========== انتخاب کشور ========== */
+#country-select-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.country-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.country-card:hover:not(.taken) {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.country-card.taken {
+  opacity: 0.45;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.country-card .flag {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.country-card .name {
+  font-size: 0.85rem;
+  display: block;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: var(--red);
+  color: #fff;
+}
+
+.badge.free {
+  background: var(--green);
+}
+
+/* ========== فروشگاه ========== */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.item-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem;
+  font-size: 0.85rem;
+}
+
+.item-name {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.item-meta, .item-income, .item-owned {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.item-income {
+  color: var(--green);
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.qty-control button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.qty-control button:active {
+  background: var(--khaki);
+}
+
+.cart-bar {
+  position: sticky;
+  bottom: 70px;
+  background: var(--card2);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  z-index: 50;
+}
+
+/* ========== کانال ========== */
+.channel-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.channel-filter {
+  padding: 0.4rem 0.8rem;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.channel-filter.active {
+  background: var(--khaki);
+  color: #fff;
+  border-color: var(--gold);
+}
+
+.channel-msg .msg-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.msg-type {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ========== اتحاد ========== */
+.member-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.alliance-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* ========== جنگ ========== */
+#tab-war select,
+#tab-war textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+#tab-war textarea {
+  resize: vertical;
+}
+
+.result-card {
+  border-color: var(--gold);
+  margin-top: 1rem;
+}
+
+/* ========== رتبه‌بندی ========== */
+.rank-row {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+/* ========== عمومی ========== */
+.muted {
+  color: var(--muted);
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+/* ========== ریسپانسیو دسکتاپ ========== */
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+  .top-nav {
+    display: block;
+  }
+  #game-screen {
+    padding-bottom: 2rem;
+  }
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .cart-bar {
+    bottom: 1rem;
+  }
+}
+
+  
+/* ===== CINEMATIC ORANGE / GLASS / SATURN EXPERIENCE ===== */
+body{
+  overflow-x:hidden;
+  background:
+    radial-gradient(900px 420px at 50% -180px,rgba(255,126,35,.34),transparent 68%),
+    radial-gradient(700px 500px at 50% 15%,rgba(255,92,20,.07),transparent 70%),
+    #050505;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;
+  background:linear-gradient(180deg,rgba(255,105,25,.13),transparent 22%,transparent 78%,rgba(0,0,0,.35));
+}
+#auth-screen{
+  position:relative;isolation:isolate;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 38%,rgba(255,112,26,.10),transparent 25%),
+    radial-gradient(ellipse at top,#21150d 0%,#090706 42%,#030303 100%);
+  transition:opacity .7s ease,transform .7s ease,visibility .7s;
+}
+#auth-screen::before{
+  content:"";position:absolute;z-index:-1;width:440px;height:440px;border-radius:50%;
+  left:50%;top:50%;transform:translate(-50%,-53%);
+  background:radial-gradient(circle at 38% 35%,#9b5b2c 0%,#4b2a17 24%,#17100d 57%,#030303 72%);
+  box-shadow:0 0 70px rgba(255,108,26,.22),inset -55px -35px 80px #000;
+  opacity:.9;
+  animation:saturnFloat 7s ease-in-out infinite;
+}
+#auth-screen::after{
+  content:"";position:absolute;z-index:-1;width:570px;height:155px;
+  left:50%;top:51%;transform:translate(-50%,-50%) rotate(-14deg);
+  border:14px solid rgba(225,139,71,.20);border-radius:50%;
+  box-shadow:0 0 22px rgba(255,120,35,.16),inset 0 0 14px rgba(255,170,90,.08);
+  animation:ringDrift 9s linear infinite;
+}
+@keyframes saturnFloat{50%{transform:translate(-50%,-57%) scale(1.025)}}
+@keyframes ringDrift{50%{transform:translate(-50%,-50%) rotate(-10deg) scale(1.04)}}
+.auth-box{
+  position:relative;z-index:2;
+  background:linear-gradient(145deg,rgba(35,35,35,.47),rgba(8,8,8,.62));
+  border:1px solid rgba(255,164,91,.25);
+  border-radius:24px;padding:2rem;
+  box-shadow:0 25px 80px rgba(0,0,0,.72),0 0 35px rgba(255,98,20,.10),inset 0 1px rgba(255,255,255,.10);
+  backdrop-filter:blur(22px) saturate(135%);
+  -webkit-backdrop-filter:blur(22px) saturate(135%);
+  animation:boxIn .9s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes boxIn{from{opacity:0;transform:translateY(25px) scale(.97)}to{opacity:1;transform:none}}
+.auth-tab,.auth-form input,.btn,.btn-sm{
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;
+}
+.auth-tab.active{
+  background:linear-gradient(135deg,#d85d16,#9f3e0d)!important;
+  box-shadow:0 0 24px rgba(255,105,25,.25);
+}
+.auth-form input{
+  background:rgba(0,0,0,.38);
+  border-color:rgba(255,255,255,.10);
+  backdrop-filter:blur(8px);
+}
+.auth-form input:focus{
+  border-color:#ff7b2c!important;
+  box-shadow:0 0 0 3px rgba(255,112,35,.10),0 0 22px rgba(255,93,20,.12);
+}
+.btn.primary{
+  background:linear-gradient(135deg,#f07828,#a8420d);
+  box-shadow:0 8px 25px rgba(255,91,20,.18);
+}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,91,20,.28)}
+.logo-svg{filter:drop-shadow(0 0 16px rgba(255,135,35,.45));animation:logoPulse 3s ease-in-out infinite}
+@keyframes logoPulse{50%{filter:drop-shadow(0 0 28px rgba(255,115,25,.75));transform:scale(1.025)}}
+#fire-particles{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.fire-dot{position:absolute;bottom:-20px;width:3px;height:3px;border-radius:50%;background:#ff9a4a;box-shadow:0 0 10px #ff6b22;opacity:0;animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.5);opacity:0}15%{opacity:.8}100%{transform:translateY(-110vh) translateX(var(--drift)) scale(1.7);opacity:0}}
+#top-orange-light{position:fixed;left:50%;top:-140px;transform:translateX(-50%);width:min(900px,130vw);height:240px;border-radius:50%;background:rgba(255,91,20,.22);filter:blur(45px);pointer-events:none;z-index:9991;animation:orangeGlow 4s ease-in-out infinite}
+@keyframes orangeGlow{50%{opacity:.65;transform:translateX(-50%) scaleX(1.12)}}
+#page-loader{
+ position:fixed;inset:0;background:#020202;z-index:10000;display:flex;align-items:center;justify-content:center;
+ opacity:1;visibility:visible;transition:opacity .8s ease,visibility .8s;
+}
+#page-loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-scene{position:relative;width:220px;height:220px;display:grid;place-items:center}
+.loader-planet{width:118px;height:118px;border-radius:50%;
+ background:radial-gradient(circle at 32% 28%,#a66b43,#55301c 40%,#140d0a 76%);
+ box-shadow:0 0 45px rgba(255,104,27,.18),inset -20px -16px 30px #000;
+ animation:planetLoad 2.2s ease-in-out infinite}
+.loader-ring{position:absolute;width:195px;height:62px;border:9px solid rgba(227,145,83,.48);border-radius:50%;transform:rotate(-17deg);box-shadow:0 0 18px rgba(255,106,28,.25);animation:ringLoad 3s linear infinite}
+@keyframes planetLoad{50%{transform:scale(1.06)}}
+@keyframes ringLoad{to{transform:rotate(343deg)}}
+.loader-title{position:absolute;top:calc(50% + 88px);white-space:nowrap;color:#eee;font-size:.85rem;letter-spacing:2px}
+.loader-title b{color:#ff7826}
+
+</style>
+<style id="blue-glass-theme">:root{--bg:#03070c!important;--card:rgba(8,18,28,.72)!important;--card2:rgba(12,28,42,.72)!important;--border:rgba(145,215,255,.22)!important;--khaki:#9cddff!important;--gold:#c5edff!important;--text:#edf9ff!important;--muted:#83a7ba!important;--red:#ff7650!important;--green:#69e5b5!important}body{background:#02060a!important;background-image:radial-gradient(circle at 50% -10%,rgba(93,194,255,.2),transparent 38%),radial-gradient(circle at 10% 80%,rgba(0,110,190,.12),transparent 30%)!important;color:var(--text)!important}#auth-screen{background:radial-gradient(circle at 50% 45%,rgba(100,205,255,.16),transparent 32%),linear-gradient(180deg,#02070d,#06121c 60%,#010306)!important}#auth-screen::before{content:"";position:absolute;width:210px;height:210px;border-radius:50%;left:50%;top:24%;transform:translateX(-50%);background:radial-gradient(circle at 35% 30%,#bcecff,#3288bb 42%,#06111b 75%);box-shadow:0 0 55px rgba(100,210,255,.35);opacity:.75;z-index:0}#auth-screen::after{content:"";position:absolute;width:310px;height:80px;border:5px solid rgba(160,225,255,.45);border-left-color:transparent;border-right-color:transparent;border-radius:50%;left:50%;top:39%;transform:translateX(-50%) rotate(-12deg);z-index:0;box-shadow:0 0 25px rgba(100,210,255,.25)}.auth-box,.card,.country-card,.shop-item,.nav-item{background:rgba(7,17,27,.58)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;border-color:rgba(145,215,255,.25)!important;box-shadow:0 10px 35px rgba(0,0,0,.38),inset 0 1px rgba(220,248,255,.07),0 0 18px rgba(70,190,255,.07)!important}.auth-box{position:relative;z-index:3}.auth-tab.active{background:linear-gradient(135deg,#b9eaff,#62bde9)!important;color:#031018!important}.btn-primary,.primary-btn{background:linear-gradient(135deg,#b9eaff,#5fbce8)!important;color:#031018!important;box-shadow:0 0 22px rgba(105,205,255,.25)!important}.input, input,select,textarea{background:rgba(1,8,14,.62)!important;border-color:rgba(145,215,255,.25)!important;color:#eefbff!important}#top-orange-light{background:radial-gradient(ellipse at center,rgba(100,205,255,.5),transparent 68%)!important}#page-loader{background:radial-gradient(circle at 50% 45%,rgba(70,185,255,.12),transparent 30%),#02060a!important}#page-loader .planet{background:radial-gradient(circle at 35% 30%,#c7f2ff,#3187b8 45%,#061019)!important;box-shadow:0 0 45px rgba(100,210,255,.35)!important}#page-loader .ring{border-color:rgba(170,230,255,.55)!important;box-shadow:0 0 18px rgba(100,210,255,.25)!important}.fire-dot{box-shadow:0 0 9px rgba(255,120,55,.75)!important}#lightning-layer{position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden}.lightning{position:absolute;top:-8%;width:5px;height:70vh;background:linear-gradient(180deg,transparent,#dff8ff,#72cfff,transparent);filter:drop-shadow(0 0 8px #8edcff) drop-shadow(0 0 18px rgba(100,200,255,.8));clip-path:polygon(45% 0,65% 0,52% 28%,82% 28%,38% 62%,55% 62%,18% 100%,31% 58%,5% 58%,48% 25%);opacity:0}.lightning.flash{animation:bolt .22s ease-out forwards}@keyframes bolt{0%{opacity:0;transform:scaleX(.5)}18%{opacity:1}45%{opacity:.35}65%{opacity:1}100%{opacity:0;transform:scaleX(1)}}@media(max-width:700px){#auth-screen::before{width:150px;height:150px;top:20%}#auth-screen::after{width:230px;top:34%}}</style></head>
+<body>
+<div id="top-orange-light"></div>
+<div id="fire-particles"></div>
+<div id="page-loader">
+  <div class="loader-scene">
+    <div class="loader-ring"></div><div class="loader-planet"></div>
+    <div class="loader-title">در حال آماده‌سازی <b>تلگراف جنگ</b></div>
+  </div>
+</div>
+
+  <div id="auth-screen">
+    <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="100,20 112,70 165,70 122,102 138,155 100,125 62,155 78,102 35,70 88,70" fill="#d4af37" stroke="#8b7d4f" stroke-width="2"/>
+      <line x1="50" y1="160" x2="90" y2="90" stroke="#8b7d4f" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="48,165 55,155 45,152" fill="#d4af37"/>
+      <line x1="150" y1="160" x2="110" y2="90" stroke="#8b7d4f" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="152,165 145,155 155,152" fill="#d4af37"/>
+      <text x="100" y="190" text-anchor="middle" fill="#d4af37" font-size="16" font-family="Vazirmatn,sans-serif" font-weight="700">تلگراف جنگ</text>
+    </svg>
+    <div class="auth-box">
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login" onclick="Auth.switchTab('login')">ورود</button>
+        <button class="auth-tab" data-tab="signup" onclick="Auth.switchTab('signup')">ثبت‌نام</button>
+      </div>
+      <form id="form-login" class="auth-form active" onsubmit="Auth.handleLogin(event)">
+        <input type="text" id="login-username" placeholder="نام کاربری" required>
+        <input type="password" id="login-password" placeholder="رمز عبور" required>
+        <button type="submit" class="btn primary">ورود به بازی</button>
+      </form>
+      <form id="form-signup" class="auth-form" onsubmit="Auth.handleSignup(event)">
+        <input type="text" id="signup-username" placeholder="نام کاربری (انگلیسی)" required>
+        <input type="text" id="signup-name" placeholder="اسم بازیکن" required>
+        <input type="password" id="signup-password" placeholder="رمز عبور (حداقل ۴ کاراکتر)" required>
+        <button type="submit" class="btn primary">ثبت‌نام</button>
+      </form>
+      <p id="auth-error"></p>
+      <p class="muted" style="text-align:center;margin-top:1rem;font-size:0.8rem">نسخه آفلاین — داده‌ها روی این دستگاه ذخیره می‌شوند</p>
+    </div>
+  </div>
+
+  <div id="game-screen" style="display:none">
+    <header id="game-header">
+      <div class="header-left">
+        <svg class="header-logo" viewBox="0 0 200 200"><polygon points="100,20 112,70 165,70 122,102 138,155 100,125 62,155 78,102 35,70 88,70" fill="#d4af37"/></svg>
+        <span id="player-name"></span>
+      </div>
+      <div>
+        <span id="player-cash">$0</span>
+        <button class="btn-sm" onclick="Auth.logout()">خروج</button>
+      </div>
+    </header>
+    <div id="sanction-banner"></div>
+    <nav class="top-nav">
+      <span class="nav-item" data-tab="country" onclick="App.switchTab('country')">🏛️ کشور من</span>
+      <span class="nav-item" data-tab="shop" onclick="App.switchTab('shop')">🛒 خرید</span>
+      <span class="nav-item" data-tab="specials" onclick="App.switchTab('specials')">💎 ویژه</span>
+      <span class="nav-item" data-tab="war" onclick="App.switchTab('war')">⚔️ جنگ</span>
+      <span class="nav-item" data-tab="alliance" onclick="App.switchTab('alliance')">🤝 اتحاد</span>
+      <span class="nav-item" data-tab="channel" onclick="App.switchTab('channel')">📢 کانال</span>
+      <span class="nav-item" data-tab="rank" onclick="App.switchTab('rank')">🏆 رتبه</span>
+      <span class="nav-item" data-tab="select-country" onclick="App.switchTab('select-country')">🌍 کشورها</span>
+    </nav>
+    <main>
+      <section id="tab-select-country" class="tab-content">
+        <h2 style="color:var(--gold);margin-bottom:1rem">انتخاب کشور</h2>
+        <p class="muted" style="margin-bottom:1rem">یک کشور آزاد انتخاب کنید.</p>
+        <div id="country-select-list"></div>
+      </section>
+      <section id="tab-country" class="tab-content"></section>
+      <section id="tab-shop" class="tab-content"></section>
+      <section id="tab-specials" class="tab-content"></section>
+      <section id="tab-war" class="tab-content"></section>
+      <section id="tab-alliance" class="tab-content"><div id="alliance-content"></div></section>
+      <section id="tab-channel" class="tab-content">
+        <div class="channel-filters">
+          <button class="channel-filter active" data-filter="all" onclick="ChannelUI.setFilter('all')">همه</button>
+          <button class="channel-filter" data-filter="announcement" onclick="ChannelUI.setFilter('announcement')">بیانیه</button>
+          <button class="channel-filter" data-filter="war" onclick="ChannelUI.setFilter('war')">جنگ</button>
+          <button class="channel-filter" data-filter="victory" onclick="ChannelUI.setFilter('victory')">پیروزی</button>
+        </div>
+        <div class="card">
+          <h3>صدور بیانیه</h3>
+          <input type="text" id="ch-title" placeholder="عنوان" style="width:100%;margin-bottom:0.5rem;padding:0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit">
+          <textarea id="ch-body" rows="3" placeholder="متن..." style="width:100%;margin-bottom:0.5rem;padding:0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit"></textarea>
+          <button class="btn primary" onclick="ChannelUI.post()">ارسال</button>
+        </div>
+        <div id="channel-list"></div>
+      </section>
+      <section id="tab-rank" class="tab-content"></section>
+    </main>
+    <nav class="bottom-nav">
+      <button class="nav-item" data-tab="country" onclick="App.switchTab('country')"><span class="icon">🏛️</span>کشور</button>
+      <button class="nav-item" data-tab="shop" onclick="App.switchTab('shop')"><span class="icon">🛒</span>خرید</button>
+      <button class="nav-item" data-tab="war" onclick="App.switchTab('war')"><span class="icon">⚔️</span>جنگ</button>
+      <button class="nav-item" data-tab="alliance" onclick="App.switchTab('alliance')"><span class="icon">🤝</span>اتحاد</button>
+      <button class="nav-item" data-tab="channel" onclick="App.switchTab('channel')"><span class="icon">📢</span>کانال</button>
+      <button class="nav-item" data-tab="rank" onclick="App.switchTab('rank')"><span class="icon">🏆</span>رتبه</button>
+    </nav>
+  </div>
+<script>
+/**
+ * config.js — تنظیمات کلی بازی تلگراف جنگ
+ */
+
+const CONFIG = {
+  // آدرس API (نسبت به پوشه public)
+  API_BASE: '../api/api.php',
+
+  // فاصله ذخیره خودکار (میلی‌ثانیه)
+  AUTO_SAVE_INTERVAL: 15000,
+
+  // فاصله دریافت درآمد (میلی‌ثانیه) — هر ساعت
+  INCOME_INTERVAL: 3600000,
+
+  // تعداد پیام کانال
+  CHANNEL_LIMIT: 50,
+
+  // حداکثر اعضا اتحاد
+  MAX_ALLIANCE_MEMBERS: 5,
+
+  // رنگ‌ها
+  COLORS: {
+    bg: '#0a0a0a',
+    card: '#141414',
+    card2: '#1c1c1c',
+    border: '#2a2a2a',
+    khaki: '#8b7d4f',
+    gold: '#d4af37',
+    red: '#c0392b',
+    green: '#27ae60'
+  }
+};
+
+// لیست کامل ۶۷ کشور با پرچم ایموجی
+const COUNTRIES = [
+  { id: 'iran', name: 'ایران', flag: '🇮🇷' },
+  { id: 'usa', name: 'آمریکا', flag: '🇺🇸' },
+  { id: 'russia', name: 'روسیه', flag: '🇷🇺' },
+  { id: 'china', name: 'چین', flag: '🇨🇳' },
+  { id: 'uk', name: 'انگلیس', flag: '🇬🇧' },
+  { id: 'france', name: 'فرانسه', flag: '🇫🇷' },
+  { id: 'germany', name: 'آلمان', flag: '🇩🇪' },
+  { id: 'italy', name: 'ایتالیا', flag: '🇮🇹' },
+  { id: 'japan', name: 'ژاپن', flag: '🇯🇵' },
+  { id: 'south_korea', name: 'کره جنوبی', flag: '🇰🇷' },
+  { id: 'north_korea', name: 'کره شمالی', flag: '🇰🇵' },
+  { id: 'india', name: 'هند', flag: '🇮🇳' },
+  { id: 'pakistan', name: 'پاکستان', flag: '🇵🇰' },
+  { id: 'turkey', name: 'ترکیه', flag: '🇹🇷' },
+  { id: 'saudi', name: 'عربستان', flag: '🇸🇦' },
+  { id: 'uae', name: 'امارات', flag: '🇦🇪' },
+  { id: 'qatar', name: 'قطر', flag: '🇶🇦' },
+  { id: 'iraq', name: 'عراق', flag: '🇮🇶' },
+  { id: 'syria', name: 'سوریه', flag: '🇸🇾' },
+  { id: 'lebanon', name: 'لبنان', flag: '🇱🇧' },
+  { id: 'jordan', name: 'اردن', flag: '🇯🇴' },
+  { id: 'egypt', name: 'مصر', flag: '🇪🇬' },
+  { id: 'libya', name: 'لیبی', flag: '🇱🇾' },
+  { id: 'algeria', name: 'الجزایر', flag: '🇩🇿' },
+  { id: 'morocco', name: 'مراکش', flag: '🇲🇦' },
+  { id: 'tunisia', name: 'تونس', flag: '🇹🇳' },
+  { id: 'sudan', name: 'سودان', flag: '🇸🇩' },
+  { id: 'nigeria', name: 'نیجریه', flag: '🇳🇬' },
+  { id: 'south_africa', name: 'آفریقای جنوبی', flag: '🇿🇦' },
+  { id: 'ethiopia', name: 'اتیوپی', flag: '🇪🇹' },
+  { id: 'kenya', name: 'کنیا', flag: '🇰🇪' },
+  { id: 'somalia', name: 'سومالی', flag: '🇸🇴' },
+  { id: 'canada', name: 'کانادا', flag: '🇨🇦' },
+  { id: 'mexico', name: 'مکزیک', flag: '🇲🇽' },
+  { id: 'brazil', name: 'برزیل', flag: '🇧🇷' },
+  { id: 'argentina', name: 'آرژانتین', flag: '🇦🇷' },
+  { id: 'chile', name: 'شیلی', flag: '🇨🇱' },
+  { id: 'colombia', name: 'کلمبیا', flag: '🇨🇴' },
+  { id: 'venezuela', name: 'ونزوئلا', flag: '🇻🇪' },
+  { id: 'peru', name: 'پرو', flag: '🇵🇪' },
+  { id: 'cuba', name: 'کوبا', flag: '🇨🇺' },
+  { id: 'australia', name: 'استرالیا', flag: '🇦🇺' },
+  { id: 'new_zealand', name: 'نیوزیلند', flag: '🇳🇿' },
+  { id: 'indonesia', name: 'اندونزی', flag: '🇮🇩' },
+  { id: 'malaysia', name: 'مالزی', flag: '🇲🇾' },
+  { id: 'thailand', name: 'تایلند', flag: '🇹🇭' },
+  { id: 'vietnam', name: 'ویتنام', flag: '🇻🇳' },
+  { id: 'philippines', name: 'فیلیپین', flag: '🇵🇭' },
+  { id: 'singapore', name: 'سنگاپور', flag: '🇸🇬' },
+  { id: 'myanmar', name: 'میانمار', flag: '🇲🇲' },
+  { id: 'bangladesh', name: 'بنگلادش', flag: '🇧🇩' },
+  { id: 'afghanistan', name: 'افغانستان', flag: '🇦🇫' },
+  { id: 'kazakhstan', name: 'قزاقستان', flag: '🇰🇿' },
+  { id: 'uzbekistan', name: 'ازبکستان', flag: '🇺🇿' },
+  { id: 'azerbaijan', name: 'آذربایجان', flag: '🇦🇿' },
+  { id: 'armenia', name: 'ارمنستان', flag: '🇦🇲' },
+  { id: 'georgia', name: 'گرجستان', flag: '🇬🇪' },
+  { id: 'ukraine', name: 'اوکراین', flag: '🇺🇦' },
+  { id: 'belarus', name: 'بلاروس', flag: '🇧🇾' },
+  { id: 'poland', name: 'لهستان', flag: '🇵🇱' },
+  { id: 'spain', name: 'اسپانیا', flag: '🇪🇸' },
+  { id: 'portugal', name: 'پرتغال', flag: '🇵🇹' },
+  { id: 'netherlands', name: 'هلند', flag: '🇳🇱' },
+  { id: 'belgium', name: 'بلژیک', flag: '🇧🇪' },
+  { id: 'sweden', name: 'سوئد', flag: '🇸🇪' },
+  { id: 'norway', name: 'نروژ', flag: '🇳🇴' },
+  { id: 'finland', name: 'فنلاند', flag: '🇫🇮' },
+  { id: 'greece', name: 'یونان', flag: '🇬🇷' }
+];
+
+// تجهیزات کامل
+const ITEMS = {
+  mines: [
+    { id: 'copper_mine', name: 'معدن مس', power: 1, price: 5000, max: 10, income: 800, type: 'mine' },
+    { id: 'iron_mine', name: 'معدن آهن', power: 1, price: 7000, max: 10, income: 1200, type: 'mine' },
+    { id: 'coal_mine', name: 'معدن زغال', power: 1, price: 8000, max: 10, income: 1500, type: 'mine' },
+    { id: 'gold_mine', name: 'معدن طلا', power: 2, price: 15000, max: 6, income: 3000, type: 'mine' },
+    { id: 'uranium_mine', name: 'معدن اورانیوم', power: 2, price: 25000, max: 4, income: 5000, type: 'mine' },
+    { id: 'oil_mine', name: 'معدن نفت', power: 2, price: 40000, max: 3, income: 9000, type: 'mine' },
+    { id: 'diamond_mine', name: 'معدن الماس', power: 3, price: 70000, max: 2, income: 15000, type: 'mine' }
+  ],
+  structures: [
+    { id: 'oil_well', name: 'چاه نفت', power: 1, price: 5000, max: 6, income: 2000, type: 'structure' },
+    { id: 'oil_field', name: 'میدان نفتی', power: 2, price: 20000, max: 2, income: 6000, type: 'structure' },
+    { id: 'port', name: 'بندر', power: 2, price: 10000, max: 4, income: 3000, type: 'structure' },
+    { id: 'power_plant', name: 'نیروگاه برق', power: 2, price: 10000, max: 3, income: 3000, type: 'structure' },
+    { id: 'solar_plant', name: 'نیروگاه خورشیدی', power: 1, price: 3000, max: 10, income: 800, type: 'structure' },
+    { id: 'factory', name: 'کارخانه', power: 2, price: 3000, max: 4, income: 1500, type: 'structure' },
+    { id: 'airport', name: 'فرودگاه', power: 3, price: 20000, max: 1, income: 5000, type: 'structure' },
+    { id: 'bank', name: 'بانک', power: 3, price: 15000, max: 2, income: 4000, type: 'structure' },
+    { id: 'nuclear_reactor', name: 'راکتور هسته‌ای', power: 4, price: 170000, max: 1, income: 25000, type: 'structure' }
+  ],
+  naval_def: [
+    { id: 'naval_mine', name: 'میدان مین دریایی', power: 1, price: 1500, max: 5, type: 'naval_def' },
+    { id: 'coastal_battery', name: 'باتری ساحلی سبک', power: 2, price: 3000, max: 5, type: 'naval_def' },
+    { id: 'short_anti_ship', name: 'موشک ضدکشتی کوتاه‌برد', power: 2, price: 4500, max: 5, type: 'naval_def' },
+    { id: 'harpoon', name: 'سیستم ضدکشتی هارپون', power: 3, price: 7000, max: 5, type: 'naval_def' },
+    { id: 'adv_coastal', name: 'دفاع ساحلی پیشرفته', power: 3, price: 8500, max: 5, type: 'naval_def' },
+    { id: 'heavy_naval_def', name: 'دفاع دریایی سنگین', power: 4, price: 11000, max: 5, type: 'naval_def' }
+  ],
+  land_def: [
+    { id: 'land_mine', name: 'میدان مین', power: 1, price: 2000, max: 5, type: 'land_def' },
+    { id: 'bunker', name: 'سنگر و استحکامات', power: 2, price: 3000, max: 5, type: 'land_def' },
+    { id: 'javelin', name: 'موشک ضدتانک جاولین', power: 2, price: 5000, max: 5, type: 'land_def' },
+    { id: 'kornet', name: 'موشک ضدتانک کورنت', power: 3, price: 7000, max: 5, type: 'land_def' },
+    { id: 'howitzer', name: 'توپخانه دفاعی هویتزر', power: 3, price: 9500, max: 5, type: 'land_def' },
+    { id: 'adv_land_def', name: 'دفاع زمینی پیشرفته', power: 4, price: 12000, max: 5, type: 'land_def' }
+  ],
+  soldiers: [
+    { id: 'infantry', name: 'پیاده‌نظام', power: 1, price: 850, max: 10, unit: 10, type: 'ground' },
+    { id: 'scout', name: 'دیده‌بان', power: 2, price: 1100, max: 10, unit: 10, type: 'ground' },
+    { id: 'medic', name: 'پزشک', power: 2, price: 2600, max: 10, unit: 10, type: 'ground' },
+    { id: 'rpg', name: 'آرپی‌جی‌زن', power: 3, price: 3500, max: 10, unit: 10, type: 'ground' },
+    { id: 'commando', name: 'تکاور', power: 3, price: 4500, max: 10, unit: 10, type: 'ground' },
+    { id: 'special_force', name: 'نیروی ویژه', power: 4, price: 5500, max: 10, unit: 10, type: 'ground' }
+  ],
+  apc: [
+    { id: 'm113', name: 'M113', power: 1, price: 4000, max: 1, type: 'ground' },
+    { id: 'btr80', name: 'BTR-80', power: 2, price: 5000, max: 1, type: 'ground' },
+    { id: 'vab', name: 'VAB', power: 2, price: 6000, max: 1, type: 'ground' },
+    { id: 'btr82a', name: 'BTR-82A', power: 2, price: 7000, max: 1, type: 'ground' },
+    { id: 'bmp2', name: 'BMP-2', power: 3, price: 8000, max: 1, type: 'ground' },
+    { id: 'patria', name: 'Patria AMV', power: 3, price: 11000, max: 1, type: 'ground' },
+    { id: 'boxer', name: 'Boxer', power: 3, price: 12000, max: 1, type: 'ground' },
+    { id: 'stryker', name: 'M1126 Stryker', power: 3, price: 12000, max: 1, type: 'ground' },
+    { id: 'bmp3', name: 'BMP-3', power: 4, price: 14000, max: 1, type: 'ground' },
+    { id: 'puma', name: 'Puma', power: 4, price: 15000, max: 1, type: 'ground' }
+  ],
+  tanks: [
+    { id: 't55', name: 'T-55', power: 1, price: 3500, max: 1, type: 'ground' },
+    { id: 't62', name: 'T-62', power: 2, price: 5000, max: 1, type: 'ground' },
+    { id: 't72', name: 'T-72', power: 2, price: 6500, max: 1, type: 'ground' },
+    { id: 't80', name: 'T-80', power: 2, price: 7000, max: 1, type: 'ground' },
+    { id: 't90', name: 'T-90', power: 3, price: 10000, max: 1, type: 'ground' },
+    { id: 'leclerc', name: 'Leclerc', power: 3, price: 11500, max: 1, type: 'ground' },
+    { id: 'leopard2', name: 'Leopard 2', power: 4, price: 14000, max: 1, type: 'ground' },
+    { id: 'abrams', name: 'M1 Abrams', power: 4, price: 15500, max: 1, type: 'ground' },
+    { id: 'challenger2', name: 'Challenger 2', power: 4, price: 17000, max: 1, type: 'ground' },
+    { id: 'k2', name: 'K2 Black Panther', power: 4, price: 18500, max: 1, type: 'ground' }
+  ],
+  fighters: [
+    { id: 'mig21', name: 'MiG-21', power: 1, price: 3000, max: 1, type: 'air' },
+    { id: 'f4', name: 'F-4 Phantom II', power: 1, price: 3500, max: 1, type: 'air' },
+    { id: 'f14', name: 'F-14 Tomcat', power: 2, price: 4500, max: 1, type: 'air' },
+    { id: 'mig29', name: 'MiG-29', power: 2, price: 6000, max: 1, type: 'air' },
+    { id: 'f16', name: 'F-16 Falcon', power: 2, price: 7000, max: 1, type: 'air' },
+    { id: 'j10', name: 'J-10', power: 2, price: 8000, max: 1, type: 'air' },
+    { id: 'f15', name: 'F-15 Eagle', power: 2, price: 10000, max: 1, type: 'air' },
+    { id: 'su35', name: 'Su-35', power: 3, price: 12000, max: 1, type: 'air' },
+    { id: 'rafale', name: 'Rafale', power: 3, price: 13500, max: 1, type: 'air' },
+    { id: 'eurofighter', name: 'Eurofighter Typhoon', power: 4, price: 15000, max: 1, type: 'air' },
+    { id: 'f35', name: 'F-35 Lightning II', power: 4, price: 17500, max: 1, type: 'air' },
+    { id: 'su57', name: 'Su-57', power: 4, price: 19000, max: 1, type: 'air' },
+    { id: 'j20', name: 'J-20', power: 4, price: 20500, max: 1, type: 'air' },
+    { id: 'f22', name: 'F-22 Raptor', power: 4, price: 22000, max: 1, type: 'air' }
+  ],
+  bombers: [
+    { id: 'b17', name: 'B-17', power: 1, price: 2500, max: 1, type: 'air' },
+    { id: 'b24', name: 'B-24 Liberator', power: 2, price: 4000, max: 1, type: 'air' },
+    { id: 'b29', name: 'B-29 Superfortress', power: 2, price: 5000, max: 1, type: 'air' },
+    { id: 'tu22m', name: 'Tu-22M', power: 2, price: 7000, max: 1, type: 'air' },
+    { id: 'b52', name: 'B-52 Stratofortress', power: 3, price: 8500, max: 1, type: 'air' },
+    { id: 'b1b', name: 'B-1B Lancer', power: 3, price: 10000, max: 1, type: 'air' },
+    { id: 'tu160', name: 'Tu-160', power: 4, price: 12000, max: 1, type: 'air' },
+    { id: 'b2', name: 'B-2 Spirit', power: 4, price: 13500, max: 1, type: 'air' },
+    { id: 'b21', name: 'B-21 Raider', power: 4, price: 16000, max: 1, type: 'air' }
+  ],
+  helicopters: [
+    { id: 'uh1', name: 'UH-1 Iroquois', power: 1, price: 2000, max: 1, type: 'air' },
+    { id: 'ah1', name: 'AH-1 Cobra', power: 2, price: 3000, max: 1, type: 'air' },
+    { id: 'mi24', name: 'Mi-24', power: 2, price: 4500, max: 1, type: 'air' },
+    { id: 't129', name: 'T129 ATAK', power: 3, price: 5500, max: 1, type: 'air' },
+    { id: 'z10', name: 'Z-10', power: 3, price: 6500, max: 1, type: 'air' },
+    { id: 'mi28', name: 'Mi-28', power: 3, price: 8000, max: 1, type: 'air' },
+    { id: 'ka52', name: 'Ka-52', power: 3, price: 9500, max: 1, type: 'air' },
+    { id: 'ah1z', name: 'AH-1Z Viper', power: 4, price: 11000, max: 1, type: 'air' },
+    { id: 'tiger', name: 'Tiger', power: 4, price: 12000, max: 1, type: 'air' },
+    { id: 'apache', name: 'AH-64 Apache', power: 4, price: 13500, max: 1, type: 'air' }
+  ],
+  drones: [
+    { id: 'rq7', name: 'RQ-7 Shadow', power: 1, price: 1000, max: 1, type: 'air' },
+    { id: 'tb2', name: 'Bayraktar TB2', power: 2, price: 2500, max: 1, type: 'air' },
+    { id: 'heron', name: 'Heron', power: 2, price: 3500, max: 1, type: 'air' },
+    { id: 'anka', name: 'TAI Anka', power: 2, price: 5000, max: 1, type: 'air' },
+    { id: 'hermes900', name: 'Hermes 900', power: 2, price: 6500, max: 1, type: 'air' },
+    { id: 'ch4', name: 'CH-4', power: 3, price: 8000, max: 1, type: 'air' },
+    { id: 'rq4', name: 'RQ-4 Global Hawk', power: 3, price: 10500, max: 1, type: 'air' },
+    { id: 'mq4c', name: 'MQ-4C Triton', power: 3, price: 12000, max: 1, type: 'air' },
+    { id: 'akinci', name: 'Bayraktar Akinci', power: 4, price: 14500, max: 1, type: 'air' },
+    { id: 'akinci_adv', name: 'Akinci پیشرفته', power: 4, price: 17500, max: 1, type: 'air' }
+  ],
+  transport: [
+    { id: 'kc390', name: 'KC-390 Millennium', power: 1, price: 6000, max: 1, type: 'air' },
+    { id: 'c130', name: 'C-130 Hercules', power: 2, price: 7500, max: 1, type: 'air' },
+    { id: 'il76', name: 'Il-76', power: 3, price: 9000, max: 1, type: 'air' },
+    { id: 'c17', name: 'C-17 Globemaster III', power: 3, price: 10000, max: 1, type: 'air' },
+    { id: 'an225', name: 'An-225 Mriya', power: 4, price: 11500, max: 1, type: 'air' }
+  ],
+  carriers: [
+    { id: 'charles_de_gaulle', name: 'Charles de Gaulle', power: 2, price: 10000, max: 1, type: 'sea' },
+    { id: 'kuznetsov', name: 'Admiral Kuznetsov', power: 3, price: 11500, max: 1, type: 'sea' },
+    { id: 'queen_elizabeth', name: 'HMS Queen Elizabeth', power: 3, price: 12000, max: 1, type: 'sea' },
+    { id: 'liaoning', name: 'Liaoning', power: 3, price: 14500, max: 1, type: 'sea' },
+    { id: 'shandong', name: 'Shandong', power: 3, price: 16000, max: 1, type: 'sea' },
+    { id: 'fujian', name: 'Fujian', power: 4, price: 18000, max: 1, type: 'sea' },
+    { id: 'nimitz', name: 'USS Nimitz', power: 4, price: 20000, max: 1, type: 'sea' },
+    { id: 'gerald_ford', name: 'USS Gerald R. Ford', power: 4, price: 22000, max: 1, type: 'sea' }
+  ],
+  drone_carriers: [
+    { id: 'albion', name: 'HMS Albion', power: 2, price: 6000, max: 1, type: 'sea' },
+    { id: 'america', name: 'USS America', power: 3, price: 7500, max: 1, type: 'sea' },
+    { id: 'wasp', name: 'USS Wasp', power: 3, price: 8000, max: 1, type: 'sea' },
+    { id: 'dokdo', name: 'Dokdo', power: 3, price: 8000, max: 1, type: 'sea' },
+    { id: 'essex', name: 'USS Essex', power: 3, price: 8500, max: 1, type: 'sea' },
+    { id: 'izumo', name: 'JS Izumo', power: 3, price: 9500, max: 1, type: 'sea' },
+    { id: 'kaga', name: 'JS Kaga', power: 3, price: 10000, max: 1, type: 'sea' },
+    { id: 'tripoli', name: 'USS Tripoli', power: 4, price: 12000, max: 1, type: 'sea' }
+  ],
+  submarines: [
+    { id: 'type214', name: 'Type 214', power: 1, price: 5000, max: 1, type: 'sea' },
+    { id: 'type212cd', name: 'Type 212CD', power: 2, price: 6000, max: 1, type: 'sea' },
+    { id: 'soryu', name: 'Sōryū-class', power: 2, price: 7000, max: 1, type: 'sea' },
+    { id: 'taigei', name: 'Taigei-class', power: 3, price: 8000, max: 1, type: 'sea' },
+    { id: 'suffren', name: 'Suffren-class', power: 3, price: 9500, max: 1, type: 'sea' },
+    { id: 'astute', name: 'Astute-class', power: 3, price: 11000, max: 1, type: 'sea' }
+  ],
+  missiles: [
+    { id: 'atgm', name: 'ضدتانک', power: 1, price: 500, max: 10, unit: 10, type: 'missile' },
+    { id: 'cruise_short', name: 'کروز کوتاه‌برد', power: 2, price: 1500, max: 10, unit: 10, type: 'missile' },
+    { id: 'ballistic_short', name: 'بالستیک کوتاه‌برد', power: 2, price: 2500, max: 10, unit: 10, type: 'missile' },
+    { id: 'anti_ship_m', name: 'ضدکشتی', power: 3, price: 4000, max: 10, unit: 10, type: 'missile' },
+    { id: 'cruise_med', name: 'کروز میان‌برد', power: 3, price: 5000, max: 10, unit: 10, type: 'missile' },
+    { id: 'tomahawk', name: 'توماهوک', power: 3, price: 6500, max: 10, unit: 10, type: 'missile' },
+    { id: 'cruise_long', name: 'کروز دوربرد', power: 3, price: 8000, max: 10, unit: 10, type: 'missile' },
+    { id: 'ballistic_med', name: 'بالستیک میان‌برد', power: 3, price: 10000, max: 10, unit: 10, type: 'missile' },
+    { id: 'icbm', name: 'قاره‌پیما ICBM', power: 4, price: 12000, max: 10, unit: 10, type: 'missile' }
+  ],
+  air_def: [
+    { id: 'tairod', name: 'TAIROD', power: 2, price: 7000, max: 1, type: 'air_def' },
+    { id: 'iron_dome', name: 'Iron Dome', power: 2, price: 8000, max: 1, type: 'air_def' },
+    { id: 'patriot', name: 'Patriot', power: 3, price: 9500, max: 1, type: 'air_def' },
+    { id: 'thaad', name: 'THAAD', power: 3, price: 11000, max: 1, type: 'air_def' },
+    { id: 's400', name: 'S-400', power: 3, price: 12000, max: 1, type: 'air_def' },
+    { id: 's500', name: 'S-500', power: 4, price: 13500, max: 1, type: 'air_def' }
+  ]
+};
+
+// آیتم‌های ویژه
+const SPECIALS = [
+  { id: 'nuke', name: 'بمب اتم', price: 500000, desc: 'قدرت تخریب عظیم' },
+  { id: 'icbm_special', name: 'موشک بالستیک قاره‌پیما', price: 200000, desc: 'حمله دوربرد استراتژیک' },
+  { id: 'nmd', name: 'سیستم دفاع موشکی ملی', price: 150000, desc: 'دفاع پیشرفته موشکی' },
+  { id: 'spy_sat', name: 'ماهواره جاسوسی', price: 100000, desc: 'اطلاعات دقیق دشمن' },
+  { id: 'stealth', name: 'هواپیمای رادارگریز', price: 250000, desc: 'نفوذ بدون شناسایی' }
+];
+
+// نام دسته‌ها برای UI
+const CATEGORY_NAMES = {
+  mines: '⛏️ معادن',
+  structures: '🏗️ سازه‌ها',
+  naval_def: '⚓ پدافند دریایی',
+  land_def: '🛡️ پدافند زمینی',
+  soldiers: '🪖 سربازان',
+  apc: '🚛 نفربرها',
+  tanks: '戦車 تانک‌ها',
+  fighters: '✈️ جنگنده‌ها',
+  bombers: '💣 بمب‌افکن‌ها',
+  helicopters: '🚁 بالگردها',
+  drones: '🛸 پهپادها',
+  transport: '📦 ترابری',
+  carriers: '🛳️ ناوهای هواپیمابر',
+  drone_carriers: '🚁 ناوهای پهپادبر',
+  submarines: '潜艇 زیردریایی‌ها',
+  missiles: '🚀 موشک‌ها',
+  air_def: '🛡️ پدافند هوایی'
+};
+
+</script>
+<script>
+/**
+ * battle.js — موتور نبرد تلگراف جنگ
+ */
+
+const Battle = {
+  // ضرایب حمله
+  ATK_MULT: {
+    ground: 1.0,
+    air: 1.2,
+    sea: 1.1,
+    missile: 1.5
+  },
+
+  // ضرایب دفاع
+  DEF_MULT: {
+    land_def: 2.5,
+    air_def: 2.5,
+    naval_def: 2.5,
+    ground: 1.0,
+    air: 1.0,
+    sea: 1.0
+  },
+
+  // ماتریس تطابق (حمله → دفاع)
+  MATCH: {
+    ground:  { land_def: 0.8, air_def: 0.3, naval_def: 0.2, ground: 1.0, air: 0.6, sea: 0.4 },
+    air:     { land_def: 1.5, air_def: 0.3, naval_def: 0.8, ground: 1.5, air: 1.0, sea: 0.7 },
+    sea:     { land_def: 0.5, air_def: 0.4, naval_def: 1.0, ground: 0.7, air: 0.5, sea: 1.0 },
+    missile: { land_def: 1.2, air_def: 0.5, naval_def: 0.9, ground: 1.3, air: 0.8, sea: 1.0 }
+  },
+
+  // پیدا کردن آیتم از روی id
+  findItem(itemId) {
+    for (const cat of Object.values(ITEMS)) {
+      const found = cat.find(i => i.id === itemId);
+      if (found) return found;
+    }
+    return null;
+  },
+
+  // محاسبه قدرت حمله از inventory
+  calcAttackPower(inventory) {
+    let total = 0;
+    const byType = { ground: 0, air: 0, sea: 0, missile: 0 };
+
+    for (const [itemId, qty] of Object.entries(inventory || {})) {
+      if (qty <= 0) continue;
+      const item = this.findItem(itemId);
+      if (!item) continue;
+      const t = item.type;
+      if (!this.ATK_MULT[t]) continue;
+      const power = qty * item.power * this.ATK_MULT[t];
+      total += power;
+      byType[t] = (byType[t] || 0) + power;
+    }
+    return { total, byType };
+  },
+
+  // محاسبه قدرت دفاع
+  calcDefensePower(inventory) {
+    let total = 0;
+    const byType = { land_def: 0, air_def: 0, naval_def: 0, ground: 0, air: 0, sea: 0 };
+
+    for (const [itemId, qty] of Object.entries(inventory || {})) {
+      if (qty <= 0) continue;
+      const item = this.findItem(itemId);
+      if (!item) continue;
+      const t = item.type;
+      const mult = this.DEF_MULT[t] || 1.0;
+      const power = qty * item.power * mult;
+      total += power;
+      byType[t] = (byType[t] || 0) + power;
+    }
+    // بونوس دفاع خانه
+    total *= 1.2;
+    return { total, byType };
+  },
+
+  // محاسبه ضریب تطابق وزنی
+  calcMatchMultiplier(atkByType, defByType) {
+    let weighted = 0;
+    let totalAtk = 0;
+
+    for (const [atkType, atkVal] of Object.entries(atkByType)) {
+      if (atkVal <= 0) continue;
+      totalAtk += atkVal;
+      const matchRow = this.MATCH[atkType] || {};
+      let best = 0.5;
+      for (const [defType, defVal] of Object.entries(defByType)) {
+        if (defVal <= 0) continue;
+        const m = matchRow[defType] ?? 0.5;
+        best = Math.max(best, m);
+      }
+      weighted += atkVal * best;
+    }
+    return totalAtk > 0 ? weighted / totalAtk : 1.0;
+  },
+
+  // اجرای نبرد
+  resolve(attackerInv, defenderInv, defenderHp) {
+    const atk = this.calcAttackPower(attackerInv);
+    const def = this.calcDefensePower(defenderInv);
+    const matchMult = this.calcMatchMultiplier(atk.byType, def.byType);
+
+    const effectiveAttack = atk.total * matchMult;
+    const effectiveDefense = def.total * 1.2;
+
+    const randomFactor = 0.85 + Math.random() * 0.30; // 0.85 تا 1.15
+    let damage = Math.max(0, effectiveAttack - effectiveDefense * 0.6) * randomFactor;
+    damage = Math.round(damage);
+
+    let newHp = Math.max(0, defenderHp - damage);
+    let result = 'repelled';
+    let lootPercent = 0;
+
+    if (newHp <= 0) {
+      if (effectiveAttack > effectiveDefense * 2.5) {
+        result = 'conquer';
+        lootPercent = 0.50;
+        newHp = 0;
+      } else if (effectiveAttack > effectiveDefense * 1.5) {
+        result = 'colony';
+        lootPercent = 0.30;
+        newHp = 200;
+      } else {
+        result = 'surrender';
+        lootPercent = 0.15;
+        newHp = 200;
+      }
+    }
+
+    return {
+      attackPower: Math.round(atk.total),
+      defensePower: Math.round(def.total),
+      matchMultiplier: matchMult.toFixed(2),
+      effectiveAttack: Math.round(effectiveAttack),
+      effectiveDefense: Math.round(effectiveDefense),
+      damage,
+      newHp,
+      result,
+      lootPercent
+    };
+  },
+
+  // اعمال غنیمت روی inventory
+  applyLoot(attackerInv, defenderInv, percent) {
+    const newAtt = { ...attackerInv };
+    const newDef = { ...defenderInv };
+
+    for (const [id, qty] of Object.entries(defenderInv || {})) {
+      if (qty <= 0) continue;
+      const lootQty = Math.floor(qty * percent);
+      if (lootQty > 0) {
+        newAtt[id] = (newAtt[id] || 0) + lootQty;
+        newDef[id] = qty - lootQty;
+      }
+    }
+    return { newAtt, newDef };
+  }
+};
+
+</script>
+<script>
+/**
+ * storage.js — لایه ذخیره محلی (localStorage)
+ * نسخه آفلاین تلگراف جنگ
+ */
+
+const DB = {
+  KEYS: {
+    ACCOUNTS: 'tw_accounts',
+    SESSION: 'tw_session',
+    COUNTRIES: 'tw_countries',
+    ALLIANCES: 'tw_alliances',
+    CHANNEL: 'tw_channel',
+    PLAYERS: 'tw_players'
+  },
+
+  get(key) {
+    try {
+      return JSON.parse(localStorage.getItem(key) || 'null');
+    } catch {
+      return null;
+    }
+  },
+
+  set(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+  },
+
+  // --- Accounts ---
+  getAccounts() {
+    return this.get(this.KEYS.ACCOUNTS) || {};
+  },
+
+  saveAccount(acc) {
+    const all = this.getAccounts();
+    all[acc.username] = acc;
+    this.set(this.KEYS.ACCOUNTS, all);
+  },
+
+  findAccount(username) {
+    return this.getAccounts()[username.toLowerCase()] || null;
+  },
+
+  // --- Session ---
+  getSession() {
+    return this.get(this.KEYS.SESSION);
+  },
+
+  setSession(session) {
+    this.set(this.KEYS.SESSION, session);
+  },
+
+  clearSession() {
+    localStorage.removeItem(this.KEYS.SESSION);
+  },
+
+  // --- Countries ---
+  getCountries() {
+    let list = this.get(this.KEYS.COUNTRIES);
+    if (!list) {
+      // مقداردهی اولیه
+      list = {};
+      COUNTRIES.forEach(c => {
+        list[c.id] = {
+          country_id: c.id,
+          owner_id: null,
+          owner_name: null,
+          cash: 100000,
+          inventory: {},
+          specials: [],
+          hp: 1000,
+          max_hp: 1000,
+          status: 'free',
+          vassal_of: null,
+          sanctions: { active: false, until: 0 },
+          last_income: Date.now(),
+          claimed_at: null
+        };
+      });
+      this.set(this.KEYS.COUNTRIES, list);
+    }
+    return list;
+  },
+
+  saveCountries(list) {
+    this.set(this.KEYS.COUNTRIES, list);
+  },
+
+  getCountry(id) {
+    return this.getCountries()[id] || null;
+  },
+
+  updateCountry(id, data) {
+    const list = this.getCountries();
+    if (!list[id]) return;
+    Object.assign(list[id], data);
+    this.saveCountries(list);
+  },
+
+  // --- Alliances ---
+  getAlliances() {
+    return this.get(this.KEYS.ALLIANCES) || {};
+  },
+
+  saveAlliances(list) {
+    this.set(this.KEYS.ALLIANCES, list);
+  },
+
+  // --- Channel ---
+  getChannel() {
+    return this.get(this.KEYS.CHANNEL) || [];
+  },
+
+  saveChannel(msgs) {
+    // حداکثر ۵۰۰ پیام
+    if (msgs.length > 500) msgs = msgs.slice(0, 500);
+    this.set(this.KEYS.CHANNEL, msgs);
+  },
+
+  addMessage(msg) {
+    const list = this.getChannel();
+    list.unshift(msg);
+    this.saveChannel(list);
+  },
+
+  // --- Players ---
+  getPlayers() {
+    return this.get(this.KEYS.PLAYERS) || {};
+  },
+
+  savePlayers(list) {
+    this.set(this.KEYS.PLAYERS, list);
+  }
+};
+
+</script>
+<script>
+/**
+ * app.js — نسخه آفلاین تلگراف جنگ
+ * تمام منطق بازی + احراز هویت + اتحاد + کانال
+ */
+
+// ==================== AUTH ====================
+const Auth = {
+  switchTab(tab) {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    document.querySelector(`.auth-tab[data-tab="${tab}"]`)?.classList.add('active');
+    document.getElementById(`form-${tab}`)?.classList.add('active');
+    document.getElementById('auth-error').textContent = '';
+  },
+
+  handleSignup(e) {
+    e.preventDefault();
+    const username = document.getElementById('signup-username').value.trim().toLowerCase();
+    const password = document.getElementById('signup-password').value;
+    const playerName = document.getElementById('signup-name').value.trim();
+    const err = document.getElementById('auth-error');
+
+    if (username.length < 3) return err.textContent = 'نام کاربری حداقل ۳ کاراکتر';
+    if (!/^[a-z0-9_]+$/.test(username)) return err.textContent = 'فقط حروف انگلیسی، عدد و _';
+    if (password.length < 4) return err.textContent = 'رمز حداقل ۴ کاراکتر';
+    if (playerName.length < 2) return err.textContent = 'اسم بازیکن حداقل ۲ کاراکتر';
+    if (DB.findAccount(username)) return err.textContent = 'این نام کاربری قبلاً گرفته شده';
+
+    const acc = {
+      id: 'acc_' + Date.now().toString(36),
+      username,
+      password, // در نسخه آفلاین ساده نگه می‌داریم
+      player_name: playerName,
+      country_id: null,
+      created_at: Date.now()
+    };
+    DB.saveAccount(acc);
+    DB.setSession({ username, id: acc.id });
+    this.enterGame(acc);
+  },
+
+  handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value;
+    const err = document.getElementById('auth-error');
+
+    const acc = DB.findAccount(username);
+    if (!acc || acc.password !== password) {
+      err.textContent = 'نام کاربری یا رمز اشتباه است';
+      return;
+    }
+    DB.setSession({ username, id: acc.id });
+    this.enterGame(acc);
+  },
+
+  enterGame(acc) {
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('game-screen').style.display = 'block';
+    App.account = acc;
+    App.loadGame();
+  },
+
+  logout() {
+    DB.clearSession();
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('game-screen').style.display = 'none';
+    App.account = null;
+    App.myCountry = null;
+  },
+
+  checkSession() {
+    const session = DB.getSession();
+    if (!session) return false;
+    const acc = DB.findAccount(session.username);
+    if (!acc) {
+      DB.clearSession();
+      return false;
+    }
+    this.enterGame(acc);
+    return true;
+  }
+};
+
+// ==================== APP ====================
+const App = {
+  account: null,
+  myCountry: null,
+  countries: {},
+  cart: {},
+
+  loadGame() {
+    this.countries = DB.getCountries();
+    if (this.account.country_id) {
+      this.myCountry = this.countries[this.account.country_id];
+      this.claimIncome(false);
+    }
+    this.renderCountrySelect();
+    this.updateHeader();
+    this.switchTab(this.account.country_id ? 'country' : 'select-country');
+  },
+
+  switchTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.getElementById(`tab-${tab}`)?.classList.add('active');
+    document.querySelectorAll(`.nav-item[data-tab="${tab}"]`).forEach(el => el.classList.add('active'));
+
+    if (tab === 'country') this.renderCountryTab();
+    if (tab === 'shop') this.renderShop();
+    if (tab === 'specials') this.renderSpecials();
+    if (tab === 'war') this.renderWarTab();
+    if (tab === 'alliance') AllianceUI.render();
+    if (tab === 'channel') ChannelUI.render();
+    if (tab === 'rank') this.renderRankings();
+    if (tab === 'select-country') this.renderCountrySelect();
+  },
+
+  updateHeader() {
+    document.getElementById('player-name').textContent = this.account?.player_name || '';
+    document.getElementById('player-cash').textContent = '$' + ((this.myCountry?.cash || 0).toLocaleString());
+    const banner = document.getElementById('sanction-banner');
+    if (this.myCountry?.sanctions?.active && this.myCountry.sanctions.until > Date.now()) {
+      banner.style.display = 'block';
+      const h = Math.ceil((this.myCountry.sanctions.until - Date.now()) / 3600000);
+      banner.textContent = `⚠️ تحت تحریم سازمان ملل هستید (${h} ساعت باقی) — درآمد ۳۰٪ کمتر`;
+    } else {
+      banner.style.display = 'none';
+    }
+  },
+
+  // ----- انتخاب کشور -----
+  renderCountrySelect() {
+    const box = document.getElementById('country-select-list');
+    if (!box) return;
+    box.innerHTML = COUNTRIES.map(c => {
+      const data = this.countries[c.id];
+      const taken = !!data?.owner_id;
+      return `<div class="country-card ${taken ? 'taken' : ''}" ${taken ? '' : `onclick="App.claimCountry('${c.id}')"`}>
+        <span class="flag">${c.flag}</span>
+        <span class="name">${c.name}</span>
+        ${taken ? '<span class="badge">گرفته‌شده</span>' : '<span class="badge free">آزاد</span>'}
+      </div>`;
+    }).join('');
+  },
+
+  claimCountry(id) {
+    if (!confirm('این کشور را انتخاب می‌کنید؟ (دائمی)')) return;
+    if (this.account.country_id) return alert('قبلاً کشور دارید');
+    const data = this.countries[id];
+    if (data.owner_id) return alert('گرفته شده');
+
+    data.owner_id = this.account.id;
+    data.owner_name = this.account.player_name;
+    data.claimed_at = Date.now();
+    data.last_income = Date.now();
+    data.cash = 100000;
+    DB.saveCountries(this.countries);
+
+    this.account.country_id = id;
+    DB.saveAccount(this.account);
+
+    this.myCountry = data;
+    this.updateHeader();
+    this.switchTab('country');
+  },
+
+  // ----- کشور من -----
+  renderCountryTab() {
+    const el = document.getElementById('tab-country');
+    if (!this.myCountry) {
+      el.innerHTML = '<p>ابتدا کشور انتخاب کنید.</p>';
+      return;
+    }
+    const c = this.myCountry;
+    const meta = COUNTRIES.find(x => x.id === c.country_id) || { name: c.country_id, flag: '🏳️' };
+    const inv = c.inventory || {};
+    const income12 = this.calc12hIncome();
+    const nextTime = this.getNextIncomeTime();
+    const now = Date.now();
+    let timeText = '';
+    if (now >= nextTime) {
+      timeText = '<span style="color:var(--green)">آماده دریافت</span>';
+    } else {
+      const remain = nextTime - now;
+      const h = Math.floor(remain / 3600000);
+      const m = Math.floor((remain % 3600000) / 60000);
+      timeText = `${h}س ${m}د باقی‌مانده`;
+    }
+
+    let invHtml = '';
+    for (const [cat, items] of Object.entries(ITEMS)) {
+      const owned = items.filter(i => (inv[i.id] || 0) > 0);
+      if (!owned.length) continue;
+      invHtml += `<h4>${CATEGORY_NAMES[cat] || cat}</h4><ul>`;
+      owned.forEach(i => invHtml += `<li>${i.name}: ${inv[i.id]}</li>`);
+      invHtml += '</ul>';
+    }
+
+    el.innerHTML = `
+      <div class="card hero-card">
+        <div class="flag-big">${meta.flag}</div>
+        <h2>${meta.name}</h2>
+        <p>حاکم: ${c.owner_name}</p>
+        <div class="stats">
+          <div><span>💰 موجودی</span><strong>$${(c.cash||0).toLocaleString()}</strong></div>
+          <div><span>📈 درآمد هر ۱۲ ساعت</span><strong>$${income12.toLocaleString()}</strong></div>
+          <div><span>❤️ HP</span><strong>${c.hp}/${c.max_hp}</strong></div>
+          <div><span>وضعیت</span><strong>${c.status}</strong></div>
+        </div>
+        <p style="margin:0.75rem 0;font-size:0.9rem">زمان تا درآمد بعدی: ${timeText}</p>
+        <button class="btn primary" onclick="App.claimIncome(true)">دریافت درآمد ۱۲ ساعته</button>
+        ${this.getRebuildButtonHtml(c)}
+      </div>
+      <div class="card"><h3>تجهیزات</h3>${invHtml || '<p class="muted">هنوز چیزی نخریده‌اید</p>'}</div>
+    `;
+  },
+
+  // درآمد هر ۱۲ ساعت (عدد income هر آیتم = مبلغ دریافتی هر ۱۲ ساعت)
+  calc12hIncome() {
+    if (!this.myCountry) return 0;
+    let total = 0;
+    const inv = this.myCountry.inventory || {};
+    for (const cat of Object.values(ITEMS)) {
+      for (const item of cat) {
+        if (item.income && inv[item.id]) total += item.income * inv[item.id];
+      }
+    }
+    // تحریم = ۳۰٪ کاهش
+    if (this.myCountry.sanctions?.active && this.myCountry.sanctions.until > Date.now()) {
+      total = Math.floor(total * 0.7);
+    }
+    return total;
+  },
+
+  getNextIncomeTime() {
+    if (!this.myCountry) return 0;
+    const last = this.myCountry.last_income || 0;
+    return last + (12 * 3600 * 1000); // ۱۲ ساعت بعد
+  },
+
+  claimIncome(show = true) {
+    if (!this.myCountry) return;
+    const now = Date.now();
+    const nextTime = this.getNextIncomeTime();
+
+    if (now < nextTime) {
+      if (show) {
+        const remainMs = nextTime - now;
+        const h = Math.floor(remainMs / 3600000);
+        const m = Math.floor((remainMs % 3600000) / 60000);
+        alert(`هنوز زود است!\nزمان باقی‌مانده تا درآمد بعدی: ${h} ساعت و ${m} دقیقه`);
+      }
+      return;
+    }
+
+    const amount = this.calc12hIncome();
+    if (amount <= 0) {
+      if (show) alert('درآمدی برای دریافت وجود ندارد (معدن یا سازه بخرید)');
+      return;
+    }
+
+    this.myCountry.cash += amount;
+    this.myCountry.last_income = now;
+    DB.updateCountry(this.myCountry.country_id, {
+      cash: this.myCountry.cash,
+      last_income: this.myCountry.last_income
+    });
+    this.updateHeader();
+    if (show) alert(`$${amount.toLocaleString()} درآمد ۱۲ ساعته دریافت شد!`);
+    if (document.getElementById('tab-country')?.classList.contains('active')) this.renderCountryTab();
+  },
+
+
+  // ----- بازسازی کشور -----
+  getRebuildCost(c) {
+    if (!c) return 0;
+    const hpMissing = (c.max_hp || 1000) - (c.hp || 0);
+    let cost = hpMissing * 50; // هر HP = ۵۰ دلار
+    if (c.status === 'colony' || c.status === 'conquered' || c.status === 'vassal') {
+      cost += 25000; // هزینه رهایی از مستعمره/فتح
+    }
+    return cost;
+  },
+
+  getRebuildButtonHtml(c) {
+    const needsRebuild = (c.hp < c.max_hp) || ['colony','conquered','vassal'].includes(c.status);
+    if (!needsRebuild) return '';
+    const cost = this.getRebuildCost(c);
+    return `
+      <div style="margin-top:1rem;padding:1rem;background:var(--bg);border-radius:8px;border:1px solid var(--khaki)">
+        <h4 style="color:var(--gold);margin-bottom:0.5rem">🔧 بازسازی کشور</h4>
+        <p style="font-size:0.85rem;margin-bottom:0.5rem">
+          ${c.hp < c.max_hp ? `ترمیم HP: ${c.hp} → ${c.max_hp}<br>` : ''}
+          ${['colony','conquered','vassal'].includes(c.status) ? `رفع وضعیت «${c.status}» و استقلال مجدد<br>` : ''}
+          هزینه: <strong>$${cost.toLocaleString()}</strong>
+        </p>
+        <button class="btn primary" onclick="App.rebuildCountry()">بازسازی کشور</button>
+      </div>`;
+  },
+
+  rebuildCountry() {
+    if (!this.myCountry) return;
+    const c = this.myCountry;
+    const cost = this.getRebuildCost(c);
+    if (cost <= 0) return alert('نیازی به بازسازی نیست');
+    if ((c.cash || 0) < cost) return alert('پول کافی برای بازسازی ندارید');
+
+    if (!confirm(`آیا می‌خواهید کشور را با هزینه $${cost.toLocaleString()} بازسازی کنید؟`)) return;
+
+    c.cash -= cost;
+    c.hp = c.max_hp || 1000;
+    c.status = 'free';
+    c.vassal_of = null;
+
+    DB.updateCountry(c.country_id, {
+      cash: c.cash,
+      hp: c.hp,
+      status: 'free',
+      vassal_of: null
+    });
+
+    DB.addMessage({
+      id: 'msg_' + Date.now(),
+      type: 'news',
+      author_name: this.account.player_name,
+      title: 'بازسازی کشور',
+      body: `${this.account.player_name} کشور خود را بازسازی کرد و دوباره مستقل شد.`,
+      timestamp: Date.now(),
+      likes: 0
+    });
+
+    this.updateHeader();
+    this.renderCountryTab();
+    alert('کشور با موفقیت بازسازی شد! 🔧');
+  },
+
+  // ----- فروشگاه -----
+
+  renderShop() {
+    const el = document.getElementById('tab-shop');
+    let html = '';
+    for (const [cat, items] of Object.entries(ITEMS)) {
+      html += `<div class="card"><h3>${CATEGORY_NAMES[cat] || cat}</h3><div class="item-grid">`;
+      items.forEach(item => {
+        const owned = (this.myCountry?.inventory || {})[item.id] || 0;
+        const inCart = this.cart[item.id] || 0;
+        html += `<div class="item-card">
+          <div class="item-name">${item.name}</div>
+          <div class="item-meta">قدرت ${item.power} | $${item.price.toLocaleString()}</div>
+          ${item.income ? `<div class="item-income">+$${item.income}/۱۲س</div>` : ''}
+          <div class="item-owned">موجود: ${owned}/${item.max}</div>
+          <div class="qty-control">
+            <button onclick="App.changeCart('${item.id}',-1)">−</button>
+            <span>${inCart}</span>
+            <button onclick="App.changeCart('${item.id}',1)">+</button>
+          </div>
+        </div>`;
+      });
+      html += '</div></div>';
+    }
+    html += `<div class="cart-bar"><span>جمع: $${this.cartTotal().toLocaleString()}</span>
+      <button class="btn primary" onclick="App.buyCart()">خرید</button></div>`;
+    el.innerHTML = html;
+  },
+
+  changeCart(id, delta) {
+    const item = Battle.findItem(id);
+    if (!item) return;
+    const owned = (this.myCountry?.inventory || {})[id] || 0;
+    let q = (this.cart[id] || 0) + delta;
+    q = Math.max(0, Math.min(q, item.max - owned));
+    if (q === 0) delete this.cart[id];
+    else this.cart[id] = q;
+    this.renderShop();
+  },
+
+  cartTotal() {
+    let t = 0;
+    for (const [id, q] of Object.entries(this.cart)) {
+      const item = Battle.findItem(id);
+      if (item) t += item.price * q;
+    }
+    return t;
+  },
+
+  buyCart() {
+    const total = this.cartTotal();
+    if (total <= 0) return alert('سبد خالی است');
+    if (!this.myCountry || this.myCountry.cash < total) return alert('پول کافی نیست');
+    const inv = { ...(this.myCountry.inventory || {}) };
+    for (const [id, q] of Object.entries(this.cart)) inv[id] = (inv[id] || 0) + q;
+    this.myCountry.cash -= total;
+    this.myCountry.inventory = inv;
+    this.cart = {};
+    DB.updateCountry(this.myCountry.country_id, { cash: this.myCountry.cash, inventory: inv });
+    this.updateHeader();
+    this.renderShop();
+    alert('خرید انجام شد!');
+  },
+
+  // ----- ویژه + درگاه پرداخت -----
+  // بسته‌های خرید پول (در نسخه آفلاین شبیه‌سازی پرداخت)
+  CASH_PACKS: [
+    { id: 'pack_50k', name: 'بسته برنزی', cash: 50000, priceToman: 49000, desc: '۵۰٬۰۰۰ دلار بازی' },
+    { id: 'pack_150k', name: 'بسته نقره‌ای', cash: 150000, priceToman: 129000, desc: '۱۵۰٬۰۰۰ دلار بازی' },
+    { id: 'pack_400k', name: 'بسته طلایی', cash: 400000, priceToman: 299000, desc: '۴۰۰٬۰۰۰ دلار بازی' },
+    { id: 'pack_1m', name: 'بسته الماس', cash: 1000000, priceToman: 599000, desc: '۱٬۰۰۰٬۰۰۰ دلار بازی' }
+  ],
+
+  renderSpecials() {
+    const el = document.getElementById('tab-specials');
+    const owned = this.myCountry?.specials || [];
+
+    let html = '<h3 style="color:var(--gold);margin-bottom:0.75rem">💎 آیتم‌های ویژه (با پول بازی)</h3>';
+    html += SPECIALS.map(s => {
+      const has = owned.includes(s.id);
+      return `<div class="card"><h3>${s.name}</h3><p>${s.desc}</p><p>$${s.price.toLocaleString()}</p>
+        ${has ? '<span class="badge">خریداری شده</span>' : `<button class="btn primary" onclick="App.buySpecial('${s.id}')">خرید</button>`}
+      </div>`;
+    }).join('');
+
+    html += '<h3 style="color:var(--gold);margin:1.5rem 0 0.75rem">💳 خرید پول با درگاه پرداخت</h3>';
+    html += '<p class="muted" style="margin-bottom:1rem;font-size:0.85rem">در نسخه آفلاین، پرداخت شبیه‌سازی می‌شود. در نسخه آنلاین به زرین‌پال / آی‌دی‌پی وصل می‌شود.</p>';
+    html += this.CASH_PACKS.map(p => `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <p style="color:var(--gold);font-weight:600">${p.priceToman.toLocaleString()} تومان</p>
+        <button class="btn primary" onclick="App.buyCashPack('${p.id}')">پرداخت و دریافت</button>
+      </div>
+    `).join('');
+
+    el.innerHTML = html;
+  },
+
+  buySpecial(id) {
+    const s = SPECIALS.find(x => x.id === id);
+    if (!s || !this.myCountry) return;
+    if (this.myCountry.cash < s.price) return alert('پول کافی نیست');
+    const specials = [...(this.myCountry.specials || [])];
+    if (specials.includes(id)) return alert('قبلاً خریدید');
+    specials.push(id);
+    this.myCountry.cash -= s.price;
+    this.myCountry.specials = specials;
+    DB.updateCountry(this.myCountry.country_id, { cash: this.myCountry.cash, specials });
+    this.updateHeader();
+    this.renderSpecials();
+    alert(s.name + ' خریداری شد');
+  },
+
+  buyCashPack(packId) {
+    const pack = this.CASH_PACKS.find(p => p.id === packId);
+    if (!pack || !this.myCountry) return;
+
+    // شبیه‌سازی درگاه پرداخت
+    const ok = confirm(
+      `درگاه پرداخت (دمو)\n\n` +
+      `بسته: ${pack.name}\n` +
+      `مبلغ: ${pack.priceToman.toLocaleString()} تومان\n` +
+      `دریافتی: $${pack.cash.toLocaleString()}\n\n` +
+      `آیا پرداخت را تأیید می‌کنید؟\n(در نسخه واقعی به صفحه درگاه هدایت می‌شوید)`
+    );
+    if (!ok) return;
+
+    // شبیه‌سازی تاخیر پرداخت
+    const loading = confirm('در حال اتصال به درگاه...\n(OK = پرداخت موفق | Cancel = ناموفق)');
+    if (!loading) {
+      alert('پرداخت ناموفق بود.');
+      return;
+    }
+
+    this.myCountry.cash = (this.myCountry.cash || 0) + pack.cash;
+    DB.updateCountry(this.myCountry.country_id, { cash: this.myCountry.cash });
+    this.updateHeader();
+    this.renderSpecials();
+    alert(`پرداخت موفق!\n$${pack.cash.toLocaleString()} به حساب شما اضافه شد.`);
+  },
+
+  // ----- جنگ -----
+  renderWarTab() {
+    const el = document.getElementById('tab-war');
+    const targets = Object.values(this.countries).filter(c => c.owner_id && c.country_id !== this.account.country_id);
+    // در نسخه آفلاین برای تست، چند کشور فرضی دشمن اضافه می‌کنیم اگر خالی بود
+    let options = targets.map(c => {
+      const meta = COUNTRIES.find(x => x.id === c.country_id) || { name: c.country_id, flag: '🏳️' };
+      return `<option value="${c.country_id}">${meta.flag} ${meta.name} — ${c.owner_name} (HP:${c.hp})</option>`;
+    }).join('');
+
+    if (!options) {
+      // ساخت دشمن فرضی برای تست
+      options = COUNTRIES.slice(0, 5).filter(c => c.id !== this.account.country_id).map(c => {
+        if (!this.countries[c.id].owner_id) {
+          this.countries[c.id].owner_id = 'bot_' + c.id;
+          this.countries[c.id].owner_name = 'ربات ' + c.name;
+          this.countries[c.id].cash = 80000;
+          this.countries[c.id].inventory = { infantry: 3, t72: 1 };
+          this.countries[c.id].hp = 1000;
+        }
+        return `<option value="${c.id}">${c.flag} ${c.name} — ربات (HP:1000)</option>`;
+      }).join('');
+      DB.saveCountries(this.countries);
+    }
+
+    el.innerHTML = `
+      <div class="card">
+        <h3>انتخاب هدف</h3>
+        <select id="war-target">${options}</select>
+        <textarea id="war-reason" rows="3" placeholder="دلیل حمله (حداقل ۲۰ کاراکتر)..."></textarea>
+        <button class="btn danger" onclick="App.doAttack()">حمله!</button>
+      </div>
+      <div id="war-result"></div>
+    `;
+  },
+
+  doAttack() {
+    const targetId = document.getElementById('war-target')?.value;
+    const reason = document.getElementById('war-reason')?.value.trim() || '';
+    if (!targetId) return;
+
+    if (reason.length < 20) {
+      this.myCountry.sanctions = { active: true, until: Date.now() + 24*3600*1000 };
+      DB.updateCountry(this.myCountry.country_id, { sanctions: this.myCountry.sanctions });
+      this.updateHeader();
+      alert('دلیل نامعتبر! تحریم ۲۴ ساعته شدید.');
+      return;
+    }
+
+    const defender = this.countries[targetId];
+    if (!defender) return alert('هدف پیدا نشد');
+
+    const result = Battle.resolve(this.myCountry.inventory || {}, defender.inventory || {}, defender.hp);
+
+    let lootCash = 0;
+    let newInvAtt = { ...(this.myCountry.inventory || {}) };
+    let newInvDef = { ...(defender.inventory || {}) };
+
+    if (result.lootPercent > 0) {
+      lootCash = Math.floor((defender.cash || 0) * result.lootPercent);
+      this.myCountry.cash += lootCash;
+      defender.cash = Math.max(0, (defender.cash || 0) - lootCash);
+      const loot = Battle.applyLoot(newInvAtt, newInvDef, result.lootPercent * 0.5);
+      newInvAtt = loot.newAtt;
+      newInvDef = loot.newDef;
+    }
+
+    defender.hp = result.newHp;
+    defender.inventory = newInvDef;
+    if (result.result === 'conquer') defender.status = 'conquered';
+    else if (result.result === 'colony') {
+      defender.status = 'colony';
+      defender.vassal_of = this.myCountry.country_id;
+    }
+
+    this.myCountry.inventory = newInvAtt;
+
+    DB.updateCountry(this.myCountry.country_id, {
+      cash: this.myCountry.cash,
+      inventory: newInvAtt
+    });
+    DB.updateCountry(targetId, {
+      hp: defender.hp,
+      cash: defender.cash,
+      inventory: newInvDef,
+      status: defender.status,
+      vassal_of: defender.vassal_of
+    });
+
+    // پیام کانال
+    DB.addMessage({
+      id: 'msg_' + Date.now(),
+      type: result.result === 'conquer' ? 'victory' : (result.result === 'colony' ? 'colony' : 'war'),
+      author_name: this.account.player_name,
+      title: result.result === 'conquer' ? 'فتح کامل' : 'اعلان جنگ',
+      body: `${this.account.player_name} به ${defender.owner_name} حمله کرد.\nدلیل: ${reason}\nنتیجه: ${result.result} | آسیب: ${result.damage}`,
+      timestamp: Date.now(),
+      likes: 0
+    });
+
+    document.getElementById('war-result').innerHTML = `
+      <div class="card result-card">
+        <h3>نتیجه: ${result.result}</h3>
+        <p>حمله: ${result.attackPower} | دفاع: ${result.defensePower}</p>
+        <p>آسیب: ${result.damage} | HP دشمن: ${result.newHp}</p>
+        <p>غنیمت: $${lootCash.toLocaleString()}</p>
+      </div>`;
+    this.updateHeader();
+  },
+
+  // ----- رتبه -----
+  renderRankings() {
+    const el = document.getElementById('tab-rank');
+    const owned = Object.values(this.countries).filter(c => c.owner_id);
+    const byWealth = [...owned].sort((a,b) => (b.cash||0)-(a.cash||0)).slice(0,5);
+
+    const calc = (inv, types) => {
+      let p = 0;
+      for (const [id,q] of Object.entries(inv||{})) {
+        const item = Battle.findItem(id);
+        if (item && types.includes(item.type)) p += q * item.power;
+      }
+      return p;
+    };
+    const byGround = [...owned].sort((a,b)=>calc(b.inventory,['ground','land_def'])-calc(a.inventory,['ground','land_def'])).slice(0,3);
+    const byAir = [...owned].sort((a,b)=>calc(b.inventory,['air','air_def'])-calc(a.inventory,['air','air_def'])).slice(0,3);
+    const bySea = [...owned].sort((a,b)=>calc(b.inventory,['sea','naval_def'])-calc(a.inventory,['sea','naval_def'])).slice(0,3);
+
+    const row = (list) => list.map((c,i) => {
+      const m = COUNTRIES.find(x=>x.id===c.country_id) || {name:c.country_id,flag:'🏳️'};
+      return `<div class="rank-row">#${i+1} ${m.flag} ${c.owner_name} (${m.name})</div>`;
+    }).join('') || '<p class="muted">داده‌ای نیست</p>';
+
+    el.innerHTML = `
+      <div class="card"><h3>💰 ثروتمندترین</h3>${row(byWealth)}</div>
+      <div class="card"><h3>🪖 زمینی</h3>${row(byGround)}</div>
+      <div class="card"><h3>✈️ هوایی</h3>${row(byAir)}</div>
+      <div class="card"><h3>⚓ دریایی</h3>${row(bySea)}</div>
+    `;
+  }
+};
+
+// ==================== ALLIANCE ====================
+const AllianceUI = {
+  render() {
+    const box = document.getElementById('alliance-content');
+    const alliances = DB.getAlliances();
+    const myId = App.account?.id;
+    let myAl = null;
+    for (const al of Object.values(alliances)) {
+      if (al.members && al.members[myId]) { myAl = al; break; }
+    }
+
+    if (myAl) {
+      const members = Object.entries(myAl.members || {}).map(([id, m]) =>
+        `<div class="member-row"><span>${m.name} ${id === myAl.leader_id ? '👑' : ''}</span></div>`
+      ).join('');
+
+      const inviteCode = myAl.invite_code || myAl.id.slice(-6).toUpperCase();
+
+      box.innerHTML = `
+        <div class="card">
+          <h3>${myAl.logo} ${myAl.name}</h3>
+          <p>لیدر: ${myAl.leader_name}</p>
+          <p>اعضا: ${Object.keys(myAl.members).length} / 5</p>
+          <div class="members-list">${members}</div>
+
+          <div style="margin-top:1.2rem;padding:1rem;background:var(--bg);border-radius:8px;border:1px dashed var(--gold)">
+            <p style="margin-bottom:0.5rem;font-weight:600;color:var(--gold)">کد دعوت اتحاد:</p>
+            <p style="font-size:1.4rem;letter-spacing:3px;font-weight:700" id="invite-code-text">${inviteCode}</p>
+            <button class="btn-sm" style="margin-top:0.6rem" onclick="AllianceUI.copyCode('${inviteCode}')">کپی کد</button>
+          </div>
+
+          <p class="muted" style="margin-top:0.8rem;font-size:0.8rem">
+            این کد را برای دوستانت بفرست. آن‌ها می‌توانند با ساخت اکانت جدید روی همین گوشی (یا با خروج و ورود اکانت دیگر) و وارد کردن کد، به اتحاد بپیوندند.
+          </p>
+
+          <button class="btn danger" style="margin-top:1rem" onclick="AllianceUI.leave()">خروج از اتحاد</button>
+        </div>`;
+    } else {
+      const list = Object.values(alliances).map(al => {
+        const cnt = Object.keys(al.members || {}).length;
+        return `<div class="card"><h4>${al.logo} ${al.name}</h4>
+          <p>اعضا: ${cnt}/5 — لیدر: ${al.leader_name}</p>
+          <button class="btn primary" onclick="AllianceUI.join('${al.id}')">پیوستن مستقیم</button></div>`;
+      }).join('') || '<p class="muted">هنوز اتحادی ساخته نشده</p>';
+
+      box.innerHTML = `
+        <div class="card">
+          <h3>ساخت اتحاد جدید</h3>
+          <input id="al-name" placeholder="نام اتحاد" style="width:100%;margin:0.5rem 0;padding:0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit">
+          <input id="al-logo" value="⚔️" maxlength="4" style="width:80px;padding:0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit">
+          <button class="btn primary" onclick="AllianceUI.create()">ساخت اتحاد</button>
+        </div>
+
+        <div class="card" style="margin-top:1rem">
+          <h3>پیوستن با کد دعوت</h3>
+          <input id="join-code" placeholder="کد دعوت را وارد کنید" style="width:100%;margin:0.5rem 0;padding:0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;text-transform:uppercase;letter-spacing:2px">
+          <button class="btn primary" onclick="AllianceUI.joinByCode()">پیوستن با کد</button>
+        </div>
+
+        <h3 style="margin:1.2rem 0 0.6rem">اتحادهای موجود</h3>
+        ${list}`;
+    }
+  },
+
+  create() {
+    const name = document.getElementById('al-name')?.value.trim();
+    const logo = document.getElementById('al-logo')?.value.trim() || '⚔️';
+    if (!name || name.length < 3) return alert('نام اتحاد حداقل ۳ کاراکتر باشد');
+
+    // بررسی اینکه قبلاً عضو اتحاد دیگری نباشد
+    const alliances = DB.getAlliances();
+    for (const al of Object.values(alliances)) {
+      if (al.members && al.members[App.account.id]) {
+        return alert('شما قبلاً عضو یک اتحاد هستید');
+      }
+    }
+
+    const id = 'al_' + Date.now().toString(36);
+    const inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    alliances[id] = {
+      id,
+      name,
+      logo,
+      leader_id: App.account.id,
+      leader_name: App.account.player_name,
+      members: {
+        [App.account.id]: { name: App.account.player_name, role: 'leader' }
+      },
+      max_members: 5,
+      invite_code: inviteCode,
+      created_at: Date.now()
+    };
+    DB.saveAlliances(alliances);
+    alert('اتحاد ساخته شد!\nکد دعوت: ' + inviteCode);
+    this.render();
+  },
+
+  join(id) {
+    const alliances = DB.getAlliances();
+    const al = alliances[id];
+    if (!al) return alert('اتحاد پیدا نشد');
+
+    // چک عضویت قبلی
+    for (const a of Object.values(alliances)) {
+      if (a.members && a.members[App.account.id]) {
+        return alert('شما قبلاً عضو یک اتحاد هستید');
+      }
+    }
+
+    if (Object.keys(al.members).length >= 5) return alert('ظرفیت اتحاد پر است');
+    al.members[App.account.id] = { name: App.account.player_name, role: 'member' };
+    DB.saveAlliances(alliances);
+    alert('با موفقیت به اتحاد پیوستید');
+    this.render();
+  },
+
+  joinByCode() {
+    const code = (document.getElementById('join-code')?.value || '').trim().toUpperCase();
+    if (!code || code.length < 4) return alert('کد دعوت را وارد کنید');
+
+    const alliances = DB.getAlliances();
+    let found = null;
+    for (const al of Object.values(alliances)) {
+      const alCode = (al.invite_code || al.id.slice(-6)).toUpperCase();
+      if (alCode === code) {
+        found = al;
+        break;
+      }
+    }
+
+    if (!found) return alert('کد دعوت نامعتبر است');
+
+    // چک عضویت قبلی
+    for (const a of Object.values(alliances)) {
+      if (a.members && a.members[App.account.id]) {
+        return alert('شما قبلاً عضو یک اتحاد هستید');
+      }
+    }
+
+    if (Object.keys(found.members).length >= 5) return alert('ظرفیت اتحاد پر است');
+
+    found.members[App.account.id] = { name: App.account.player_name, role: 'member' };
+    DB.saveAlliances(alliances);
+    alert('با موفقیت با کد دعوت به اتحاد «' + found.name + '» پیوستید');
+    this.render();
+  },
+
+  copyCode(code) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(() => alert('کد کپی شد: ' + code));
+    } else {
+      alert('کد دعوت: ' + code);
+    }
+  },
+
+  leave() {
+    if (!confirm('آیا مطمئنید که می‌خواهید از اتحاد خارج شوید؟\nاگر لیدر باشید، اتحاد منحل می‌شود.')) return;
+    const alliances = DB.getAlliances();
+    for (const [id, al] of Object.entries(alliances)) {
+      if (al.members && al.members[App.account.id]) {
+        if (al.leader_id === App.account.id) {
+          delete alliances[id]; // انحلال
+        } else {
+          delete al.members[App.account.id];
+        }
+        break;
+      }
+    }
+    DB.saveAlliances(alliances);
+    this.render();
+  }
+};
+
+// ==================== CHANNEL ====================
+const ChannelUI = {
+  filter: 'all',
+
+  setFilter(f) {
+    this.filter = f;
+    document.querySelectorAll('.channel-filter').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.channel-filter[data-filter="${f}"]`)?.classList.add('active');
+    this.render();
+  },
+
+  render() {
+    let msgs = DB.getChannel();
+    if (this.filter !== 'all') msgs = msgs.filter(m => m.type === this.filter);
+    const list = document.getElementById('channel-list');
+    if (!msgs.length) {
+      list.innerHTML = '<p class="muted">پیامی نیست</p>';
+      return;
+    }
+    list.innerHTML = msgs.map(m => `
+      <div class="channel-msg card">
+        <div class="msg-header">
+          <span class="msg-type">${m.type}</span>
+          <span>${m.author_name || 'سیستم'}</span>
+          <span>${new Date(m.timestamp).toLocaleString('fa-IR')}</span>
+        </div>
+        <h4>${m.title}</h4>
+        <p>${m.body}</p>
+      </div>`).join('');
+  },
+
+  post() {
+    const title = document.getElementById('ch-title')?.value.trim();
+    const body = document.getElementById('ch-body')?.value.trim();
+    if (!title || title.length < 3) return alert('عنوان کوتاه است');
+    if (!body || body.length < 10) return alert('متن کوتاه است');
+    DB.addMessage({
+      id: 'msg_' + Date.now(),
+      type: 'announcement',
+      author_name: App.account.player_name,
+      title, body,
+      timestamp: Date.now(),
+      likes: 0
+    });
+    document.getElementById('ch-title').value = '';
+    document.getElementById('ch-body').value = '';
+    this.render();
+  }
+};
+
+// شروع
+document.addEventListener('DOMContentLoaded', () => {
+  if (!Auth.checkSession()) {
+    document.getElementById('auth-screen').style.display = 'flex';
+  }
+});
+
+</script>
+
+<script>
+/* cinematic effects */
+(function(){
+  const p=document.getElementById('fire-particles');
+  if(p){
+    for(let i=0;i<34;i++){
+      const d=document.createElement('i'); d.className='fire-dot';
+      d.style.left=(Math.random()*100)+'%';
+      d.style.animationDuration=(4+Math.random()*7)+'s';
+      d.style.animationDelay=(-Math.random()*9)+'s';
+      d.style.setProperty('--drift',(Math.random()*120-60)+'px');
+      d.style.width=d.style.height=(1.5+Math.random()*3)+'px';
+      p.appendChild(d);
+    }
+  }
+  const loader=document.getElementById('page-loader');
+  window.addEventListener('load',()=>setTimeout(()=>loader&&loader.classList.add('hide'),900));
+  setTimeout(()=>loader&&loader.classList.add('hide'),3000);
+})();
+</script>
+<script>(function(){const l=document.createElement('div');l.id='lightning-layer';document.body.appendChild(l);function strike(){const b=document.createElement('div');b.className='lightning flash';b.style.left=(Math.random()*100)+'%';b.style.height=(45+Math.random()*45)+'vh';b.style.transform='rotate('+(Math.random()*16-8)+'deg)';l.appendChild(b);setTimeout(()=>b.remove(),280)}setInterval(()=>{if(Math.random()<.72){strike();if(Math.random()<.22)setTimeout(strike,70)}},1700);const f=document.getElementById('fire-particles');if(f){for(let i=0;i<28;i++){const d=document.createElement('span');d.className='fire-dot';d.style.left=Math.random()*100+'%';d.style.bottom=(Math.random()*25)+'%';d.style.animationDelay=Math.random()*3+'s';f.appendChild(d)}}})();</script></body>
+</html>
